@@ -26,3 +26,4 @@ joblib             # persist the trained model
 # Optional / run-locally:
 #   statsmodels         # NB/ZINB statistical alternative
 #   osmnx>=2.0          # real road class + POIs (scripts/enrich_osm.py; needs network)
+#   python-docx         # render the submission docs to .docx (submission/make_docx.py)
