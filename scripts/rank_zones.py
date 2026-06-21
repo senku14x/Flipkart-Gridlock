@@ -1,11 +1,11 @@
 """
-rank_zones.py — ParkPulse Step 2/3 (Task 3)
+rank_zones.py - ParkPulse Step 2/3 (Task 3)
 ================================================================================
 Turn the scored hotspot table into the ops payload: the top enforcement zones,
-each with a dominant station/location, dominant violation, a RECOMMENDED
-ENFORCEMENT WINDOW, predictability, and the `why` breakdown.
+each with a dominant station/location, dominant violation, a recommended
+enforcement window, predictability, and the `why` breakdown.
 
-Enforcement window — the confound-safe part (CLAUDE.md §6.6):
+Enforcement window (the confound-safe part, CLAUDE.md §6.6):
   The raw modal violation-hour is confounded by the daily 4-5am enforcement
   sweep, so we do NOT recommend it directly. Instead we pick the 2-hour window
   that maximises EXPOSURE-WEIGHTED activity, i.e. sum of `expo_weight` (the
@@ -87,7 +87,7 @@ def short_location(text: str, n: int = 48) -> str:
 
 def modal_hour_note(modal_hour: int) -> str:
     h = int(modal_hour)
-    tag = "  ⚠ pre-dawn sweep" if 0 <= h <= 5 else ""
+    tag = "  [pre-dawn sweep]" if 0 <= h <= 5 else ""
     return f"{h:02d}:00{tag}"
 
 
@@ -119,24 +119,24 @@ def write_csv(top: pd.DataFrame, path: str = TOPZONES_CSV) -> None:
 
 def write_markdown(top: pd.DataFrame, path: str = TOPZONES_MD, n: int = TOP_N) -> None:
     lines = [
-        f"# ParkPulse — Top {n} Enforcement Zones",
+        f"# ParkPulse: Top {n} Enforcement Zones",
         "",
-        "Ranked by **Congestion Impact Score** (0–100) — a geometric mean of "
-        "volume × intensity × exposure × persistence, so a zone must be bad on "
-        "several axes to rank high (not just high count).",
+        "Ranked by **Congestion Impact Score** (0-100), a geometric mean of "
+        "volume × intensity × exposure × persistence. A zone must rank poorly on "
+        "several axes to score high (not just high count).",
         "",
-        "**Recommended window** is *exposure-weighted*: the 2-hour block when this "
+        "**Recommended window** is exposure-weighted: the 2-hour block when this "
         "cell's violations most coincide with busy roads (exogenous diurnal curve). "
-        "It deliberately ignores the daily 4–5am enforcement sweep — the raw "
-        "*most-logged hour* is shown separately and flagged ⚠ when it falls in that "
+        "It ignores the daily 4-5am enforcement sweep. The raw "
+        "*most-logged hour* is shown separately and flagged when it falls in that "
         "sweep. **Predictability** comes from hour-entropy (tight = schedule it).",
         "",
-        f"> The highest-impact zones are **chronic all-day** problems (high hour-entropy → "
-        f"\"diffuse\"), so they need sustained presence — but the recommended 2-hour window "
+        f"> The highest-impact zones are **chronic all-day** problems (high hour-entropy, "
+        f"\"diffuse\"), so they need sustained presence. The recommended 2-hour window "
         f"still concentrates the single best slice, capturing **{100*top['window_capture'].mean():.0f}%** "
         f"of each zone's exposure-weighted activity on average.",
         "",
-        "> ⚠️ Impact is a transparent engineered index — there is **no traffic-flow "
+        "> Note: impact is an engineered index. There is **no traffic-flow "
         "ground truth** in this data. Validate by face validity + stability, not accuracy.",
         "",
         "| # | Zone (station) | Location | Impact | Violations | Top violation | "
@@ -178,7 +178,7 @@ def main() -> None:
     print(prev.to_string(index=False))
     # how many top zones would have been mis-scheduled to the night sweep?
     swept = (top.modal_hour.astype(int) <= 5).sum()
-    print(f"\n{swept}/{TOP_N} top zones have a raw modal hour in the 0-5am sweep band — "
+    print(f"\n{swept}/{TOP_N} top zones have a raw modal hour in the 0-5am sweep band; "
           f"the exposure-weighted window corrects these to daytime.")
     print(f"\nSaved -> {TOPZONES_MD}, {TOPZONES_CSV}, {ENRICH_PATH}")
 

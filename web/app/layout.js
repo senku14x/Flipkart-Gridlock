@@ -4,7 +4,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"], variable: "--font-app" });
 
 export const metadata = {
-  title: "ParkPulse — AI Parking Intelligence for Impact-Prioritized Enforcement",
+  title: "ParkPulse: find the parking that chokes traffic, and patrol it first",
   description:
     "ParkPulse reads 298,000 Bengaluru parking-violation records and scores every hotspot by how "
     + "much it slows traffic, so enforcement knows where and when to deploy. Impact map, ranked "

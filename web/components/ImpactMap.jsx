@@ -4,6 +4,7 @@ import DeckGL from "@deck.gl/react";
 import { H3HexagonLayer, TileLayer } from "@deck.gl/geo-layers";
 import { BitmapLayer } from "@deck.gl/layers";
 import { ramp, rgb, legendGradient } from "../lib/colors";
+import { inr } from "../lib/format";
 
 const INITIAL_VIEW = {
   longitude: 77.585, latitude: 12.972, zoom: 11, minZoom: 9.2, maxZoom: 16,
@@ -119,6 +120,11 @@ export default function ImpactMap() {
             </span>
           </div>
           <div className="text-[12px] text-slate-400">{hover.o.vi} · {hover.o.n.toLocaleString()} violations</div>
+          <div className="mt-1 flex items-center gap-2 text-[12px]">
+            <span className="text-gold">≈{inr(hover.o.co)}/day delay</span>
+            {hover.o.tr === "rising" && <span className="rounded bg-accent/20 px-1.5 text-accent">rising</span>}
+            {hover.o.tr === "cooling" && <span className="rounded bg-acc2/20 px-1.5 text-acc2">cooling</span>}
+          </div>
           <div className="my-2 space-y-1">
             <AxisBar label="Volume" v={hover.o.vp} />
             <AxisBar label="Intensity" v={hover.o.ip} />
@@ -126,6 +132,7 @@ export default function ImpactMap() {
             <AxisBar label="Persist" v={hover.o.pp} />
           </div>
           <div className="text-[12px] leading-snug text-slate-300">{hover.o.wy}</div>
+          {hover.o.os && <div className="mt-1 text-[11px] text-slate-500">{hover.o.os}</div>}
         </div>
       )}
     </div>

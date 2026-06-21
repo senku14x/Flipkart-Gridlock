@@ -1,24 +1,24 @@
 """
-forecast.py — ParkPulse Step 7: violation forecaster (multi-model GBM bake-off)
+forecast.py - ParkPulse Step 7: violation forecaster (multi-model GBM bake-off)
 ================================================================================
-The one unambiguous "AI" model in ParkPulse: genuine supervised ML with real
-ground truth (historical recorded counts = labels), evaluated on a STRICT
-TEMPORAL HOLDOUT (train Nov–Feb, test Mar–Apr). Predicts, per hotspot cell per
-day, how many violations will be recorded — so patrols pre-position vs. react.
+Supervised ML with real ground truth (historical recorded counts = labels),
+evaluated on a strict temporal holdout (train Nov-Feb, test Mar-Apr). Predicts,
+per hotspot cell per day, how many violations will be recorded, so patrols can
+pre-position rather than react.
 
-⚠️ Honest target (CLAUDE.md §6.6 / §7): forecasts *expected recorded detections
-under current enforcement behaviour*, NOT pure parking demand (patrol-confounded,
-no patrol-effort field). Still operationally useful and real, checkable ML.
+Note (CLAUDE.md §6.6 / §7): the target is *expected recorded detections under
+current enforcement behaviour*, not pure parking demand (patrol-confounded,
+no patrol-effort field). Still operationally useful and verifiable ML.
 
 Pipeline
 --------
 - Leakage-safe hex×day panel. Features in five groups (all causal / train-only):
-    base      — lags (1/7/14), rolling means, expanding mean, calendar, per-cell
-                static aggregates (train base-rate + composition + lat/lon)
-    weekly    — per-cell × day-of-week train profile + recent-vs-typical ratios
-    momentum  — extra lags, EWMA, rolling std/active-rate, 7d-vs-28d trend
-    calendar+ — cyclical encodings + India/Karnataka holiday & Ramadan flags
-    spatial   — neighbour-cell lagged activity + station-level lagged totals
+    base:      lags (1/7/14), rolling means, expanding mean, calendar, per-cell
+               static aggregates (train base-rate + composition + lat/lon)
+    weekly:    per-cell × day-of-week train profile + recent-vs-typical ratios
+    momentum:  extra lags, EWMA, rolling std/active-rate, 7d-vs-28d trend
+    calendar+: cyclical encodings + India/Karnataka holiday & Ramadan flags
+    spatial:   neighbour-cell lagged activity + station-level lagged totals
 - ABLATION: add the groups cumulatively (LightGBM) to see what actually helps.
 - BAKE-OFF: LightGBM / XGBoost / CatBoost (Tweedie) + HistGBM (Poisson) on the
   full set vs. three baselines (seasonal-naive / rolling-7 / cell-mean).
@@ -109,7 +109,7 @@ ABLATION = [
     ("base+all", ALL_FEATURES),
 ]
 # Production feature set = the ablation winner. Enrichment does NOT help on this
-# base-rate-dominated, patrol-confounded series (it overfits) — see forecast_metrics.md.
+# base-rate-dominated, patrol-confounded series (it overfits). See forecast_metrics.md.
 FEATURES = GRP_BASE
 
 
@@ -336,7 +336,7 @@ def make_figure(results, te, model_cols, best_name, imp, abl, path):
             ax1.plot(ks, cov_curve(col), bstyle.get(name, ":"), color="#8a8a8a", lw=1.5,
                      label=name, zorder=2)
     ax1.set_xlabel("k (cells patrolled per day)")
-    ax1.set_ylabel("coverage — share of actual violations captured")
+    ax1.set_ylabel("coverage (share of actual violations captured)")
     ax1.set_title("Top-k coverage on the Mar–Apr holdout\n(higher = patrol fewer cells, catch more)")
     ax1.legend(fontsize=8, loc="lower right")
     ax1.set_ylim(0, 1)
@@ -347,11 +347,11 @@ def make_figure(results, te, model_cols, best_name, imp, abl, path):
     ax2.set_xticklabels(abl.index, rotation=20, ha="right", fontsize=8)
     ax2.set_ylabel(f"coverage@{PRIMARY_K}")
     ax2.axhline(abl[f"cov@{PRIMARY_K}"].iloc[0], ls=":", color="#999", lw=1.2)
-    ax2.set_title("Feature-engineering ablation (LightGBM)\neach group added to base — none beats base")
+    ax2.set_title("Feature-engineering ablation (LightGBM)\neach group added to base; none beats base")
     for i, v in enumerate(abl[f"cov@{PRIMARY_K}"]):
         ax2.annotate(f"{v:.3f}", (i, v), textcoords="offset points", xytext=(0, 6),
                      ha="center", fontsize=8)
-    fig.suptitle("ParkPulse violation forecaster — models & feature engineering", fontweight="bold")
+    fig.suptitle("ParkPulse violation forecaster: models & feature engineering", fontweight="bold")
     fig.tight_layout()
     fig.savefig(path, dpi=130)
     plt.close(fig)
@@ -367,20 +367,20 @@ def write_markdown(results, te, best_name, best_col, imp, abl, n_cells, path):
     ok = topk_scores(te, "y")[k]
 
     L = [
-        "# ParkPulse — Violation Forecaster (models + feature engineering)",
+        "# ParkPulse: Violation Forecaster (models + feature engineering)",
         "",
         "Genuine supervised ML, **real ground truth**, strict **temporal holdout** "
         f"(train 2023-11-10 → 2024-02-29, test 2024-03-01 → 2024-04-08) over **{n_cells} "
         f"recurring hotspot cells** (≥{TRAIN_SUPPORT_MIN} train violations).",
         "",
-        "> ⚠️ Target = *expected recorded detections under current enforcement*, not pure demand "
-        "(patrol-confounded — CLAUDE.md §6.6).",
+        "> Note: target = *expected recorded detections under current enforcement*, not pure demand "
+        "(patrol-confounded, CLAUDE.md §6.6).",
         "",
-        "## Feature engineering — we tried hard; the base set wins",
+        "## Feature engineering: the base set wins",
         "",
-        "We engineered **29 extra features** in four leakage-safe groups — per-cell × weekday "
-        "profile, momentum/EWMA, cyclical + holiday/Ramadan flags, and spatial spillover — and "
-        "tested each on the holdout (LightGBM). The honest result: **none beat the 24-feature base "
+        "We engineered **29 extra features** in four leakage-safe groups (per-cell × weekday "
+        "profile, momentum/EWMA, cyclical + holiday/Ramadan flags, and spatial spillover) and "
+        "tested each on the holdout (LightGBM). Result: **none beat the 24-feature base "
         "set, and the granular weekly group hurts.** `cov@20` = share of a held-out day's "
         "violations in the model's top-20 cells.",
         "",
@@ -388,7 +388,7 @@ def write_markdown(results, te, best_name, best_col, imp, abl, n_cells, path):
         "|---|--:|--:|--:|--:|",
     ]
     for name, r in abl.iterrows():
-        flag = "  ← shipped" if name == "base" else ""
+        flag = "  (shipped)" if name == "base" else ""
         L.append(f"| {name}{flag} | {int(r.n_feats)} | {r[k]:.3f} | {r.Spearman:.3f} | {r.TweedieDev:.3f} |")
     L += [
         "",
@@ -397,13 +397,13 @@ def write_markdown(results, te, best_name, best_col, imp, abl, n_cells, path):
         f"{abl.loc['base', 'TweedieDev']:.2f} → {abl.loc['base+weekly', 'TweedieDev']:.2f}): each "
         f"cell×weekday has only ~16 training samples, so it is a high-variance estimate the model "
         f"overfits. Momentum and spatial are neutral (±0.001); holiday flags are slightly negative. "
-        f"**More features add variance, not signal** — a textbook bias–variance outcome on a "
+        f"**More features add variance, not signal**: a textbook bias-variance outcome on a "
         f"base-rate-dominated, patrol-confounded series, so we ship the leaner 24-feature model.",
         "",
         "_To push past this ceiling the levers are **data, not features**: a live speed feed (the "
         "missing label that turns this into true congestion forecasting), an events/attendance "
-        "calendar, and patrol-roster data to de-confound enforcement — all flagged as data asks in "
-        "the EDA report._",
+        "calendar, and patrol-roster data to de-confound enforcement (all flagged as data asks in "
+        "the EDA report)._",
         "",
         "## Model bake-off (base feature set)",
         "",
@@ -413,20 +413,20 @@ def write_markdown(results, te, best_name, best_col, imp, abl, n_cells, path):
         "|---|--:|--:|--:|--:|--:|--:|--:|",
     ]
     for name, r in results.iterrows():
-        star = " ⭐" if name == best_name else ""
+        star = " (best)" if name == best_name else ""
         b = (lambda v: f"**{v:.3f}**") if name == best_name else (lambda v: f"{v:.3f}")
         L.append(f"| {name}{star} | {r.Spearman:.3f} | {r['cov@10']:.3f} | {b(r[k])} | "
                  f"{r['cov@50']:.3f} | {r['prec@20']:.3f} | {r.RMSE:.2f} | {r.TweedieDev:.3f} |")
     L += [
         "",
-        f"**Best: {best_name}.** Beats every baseline on every metric. vs the *required* "
+        f"**Best: {best_name}.** Beats every baseline on every metric. vs the required "
         f"seasonal-naive: **{lift:+.0f}%** coverage@20 ({naive[k]:.3f} → {best[k]:.3f}); vs the "
-        f"strong cell base-rate: {lift_cell:+.0f}% (Spearman {cellmean.Spearman:.3f} → {best.Spearman:.3f}). "
-        f"Captures {100*best[k]/ok:.0f}% of the oracle ceiling. Calibration is the decisive win — "
+        f"cell base-rate: {lift_cell:+.0f}% (Spearman {cellmean.Spearman:.3f} → {best.Spearman:.3f}). "
+        f"Captures {100*best[k]/ok:.0f}% of the oracle ceiling. Calibration is the main gain: "
         f"Tweedie deviance {best.TweedieDev:.2f} vs {naive.TweedieDev:.0f} (seasonal-naive).",
         "",
         "The four GBM libraries land within ~0.5 pt of each other: with this signal the **data, not "
-        "the framework, is the ceiling** — LightGBM is chosen on a thin margin.",
+        "the framework, is the ceiling**. LightGBM is chosen on a thin margin.",
         "",
         "### Top features (permutation importance)",
         "",
@@ -437,11 +437,11 @@ def write_markdown(results, te, best_name, best_col, imp, abl, n_cells, path):
         L.append(f"| `{t.feature}` | {t.importance:.3f} |")
     L += [
         "",
-        "All features are causal (backward-looking) or train-only — no leakage.",
+        "All features are causal (backward-looking) or train-only. No leakage.",
         "",
         "---",
-        "*`scripts/forecast.py`. Best model → `outputs/forecast_model.pkl` (+ `.json`). The project's "
-        "genuine-ML component; the impact score remains a transparent index awaiting a flow label.*",
+        "*`scripts/forecast.py`. Best model saved to `outputs/forecast_model.pkl` (+ `.json`). "
+        "The impact score remains an engineered index awaiting a flow label.*",
         "",
     ]
     open(path, "w", encoding="utf-8").write("\n".join(L))

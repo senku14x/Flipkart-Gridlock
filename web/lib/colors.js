@@ -1,5 +1,5 @@
-// Inferno-ish sequential ramp — low scores read as deep indigo, high scores glow
-// orange→yellow on the dark basemap. Used for hex fill + legends.
+// Sequential "inferno"-style color ramp: low scores read as deep indigo, high
+// scores glow orange-yellow on the dark basemap. Used for hex fill and legends.
 const STOPS = [
   [0.0, [22, 26, 56]],
   [0.15, [52, 22, 92]],

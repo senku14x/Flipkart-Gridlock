@@ -2,16 +2,20 @@
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Zones from "../components/Zones";
+import Cost from "../components/Cost";
+import Emerging from "../components/Emerging";
 import Forecaster from "../components/Forecaster";
+import Detection from "../components/Detection";
 import Optimizer from "../components/Optimizer";
 import Methodology from "../components/Methodology";
+import { inr } from "../lib/format";
 
 const ImpactMap = dynamic(() => import("../components/ImpactMap"), {
   ssr: false,
   loading: () => <div className="grid h-[78vh] place-items-center rounded-2xl border border-white/10 text-slate-500">Loading map…</div>,
 });
 
-const NAV = [["map", "Map"], ["zones", "Zones"], ["forecast", "Forecast"], ["patrols", "Patrols"], ["method", "Method"]];
+const NAV = [["map", "Map"], ["zones", "Zones"], ["cost", "Cost"], ["forecast", "Forecast"], ["patrols", "Patrols"], ["method", "Method"]];
 
 function Stat({ value, label, accent }) {
   return (
@@ -48,7 +52,7 @@ export default function Home() {
           <div className="hidden items-center gap-6 text-sm text-slate-400 md:flex">
             {NAV.map(([id, label]) => <a key={id} href={`#${id}`} className="hover:text-white">{label}</a>)}
           </div>
-          <a href="https://github.com/senku14x/Flipkart-Gridlock" className="rounded-lg border border-white/10 px-3 py-1.5 text-sm text-slate-300 hover:bg-white/5">GitHub ↗</a>
+          <a href="https://github.com/senku14x/Flipkart-Gridlock" className="rounded-lg border border-white/10 px-3 py-1.5 text-sm text-slate-300 hover:bg-white/5">GitHub</a>
         </nav>
       </header>
 
@@ -71,11 +75,15 @@ export default function Home() {
               <a href="#patrols" className="rounded-xl border border-white/10 px-5 py-2.5 font-medium text-slate-200 hover:bg-white/5">Patrol optimizer</a>
             </div>
           </div>
-          <div className="relative z-10 mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <Stat value={k ? `${(k.violations / 1000).toFixed(0)}K` : "—"} label="violation records" />
-            <Stat value={k ? k.hotspots.toLocaleString() : "—"} label="H3 hotspot cells" />
-            <Stat value={k ? `${k.top1_impact}%` : "—"} label="of impact in top 1% of cells" accent="text-gold" />
-            <Stat value={k ? `${k.beats20_greedy}%` : "—"} label="impact covered by 20 patrols" accent="text-acc2" />
+          <div className="relative z-10 mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-xl border border-gold/30 bg-gold/10 px-4 py-2.5 text-sm text-slate-200">
+            <span>Estimated <b className="text-gold">{k ? inr(k.cost_year_base) : "…"}/year</b> in lost time from these violations.</span>
+            <span className="text-slate-300">A focused patrol plan relieves <b className="text-acc2">{k ? `${k.beats20_greedy}%` : "…"}</b> of it.</span>
+          </div>
+          <div className="relative z-10 mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <Stat value={k ? `${(k.violations / 1000).toFixed(0)}K` : "…"} label="violation records" />
+            <Stat value={k ? k.hotspots.toLocaleString() : "…"} label="H3 hotspot cells" />
+            <Stat value={k ? `${k.top1_impact}%` : "…"} label="of impact in top 1% of cells" accent="text-gold" />
+            <Stat value={k ? `${k.beats20_greedy}%` : "…"} label="impact covered by 20 patrols" accent="text-acc2" />
           </div>
         </section>
 
@@ -89,9 +97,24 @@ export default function Home() {
           <Zones />
         </Section>
 
+        <Section id="cost" eyebrow="What it costs" title="The price of the gridlock"
+          sub="Impact is a rank; this turns it into a number. We estimate the delay these violations cause in vehicle-hours and rupees, with a sensitivity band, so the case for acting is concrete.">
+          <Cost />
+        </Section>
+
+        <Section id="trends" eyebrow="What is getting worse" title="Emerging hotspots"
+          sub="The map shows where things are bad on average. This shows where they are getting worse: we trend each cell against the city, so a rising spot stands out before it becomes entrenched.">
+          <Emerging />
+        </Section>
+
         <Section id="forecast" eyebrow="Looking ahead" title="Violation forecaster"
           sub="This is the one piece with real answers to check against. We train on past months and test on ones the model has never seen, compare every major gradient-boosting library, then push hard to squeeze out more accuracy. Here is what actually helped.">
           <Forecaster />
+        </Section>
+
+        <Section id="triage" eyebrow="Don't chase ghosts" title="Flagging false reports"
+          sub="Almost a third of reviewed reports are rejected on review. A second model predicts which ones, so patrols are sent to real problems instead of contested or false ones.">
+          <Detection />
         </Section>
 
         <Section id="patrols" eyebrow="Put it to work" title="Patrol optimizer"
@@ -107,7 +130,7 @@ export default function Home() {
         <footer className="mt-24 border-t border-white/5 pt-8 text-sm text-slate-500">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <span>ParkPulse, built for Gridlock Hackathon 2.0 (Round 2) on 298,445 real Bengaluru parking-violation records.</span>
-            <a href="https://github.com/senku14x/Flipkart-Gridlock" className="hover:text-slate-300">Repository ↗</a>
+            <a href="https://github.com/senku14x/Flipkart-Gridlock" className="hover:text-slate-300">Repository</a>
           </div>
         </footer>
       </main>

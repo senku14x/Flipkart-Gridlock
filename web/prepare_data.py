@@ -1,9 +1,9 @@
 """
-web/prepare_data.py — export committed ParkPulse artifacts to compact JSON for the
+web/prepare_data.py: export committed ParkPulse artifacts to compact JSON for the
 Next.js app. Run from the repo root:  python web/prepare_data.py
 
-No heavy recompute — reads data/hex_scored.csv + outputs/*, reuses
-scripts/patrol_optimizer.py so the website matches the repo exactly.
+Reads data/hex_scored.csv and outputs/*, and reuses
+scripts/patrol_optimizer.py so the website matches the repo.
 Writes web/public/data/*.json.
 """
 from __future__ import annotations
@@ -16,6 +16,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import patrol_optimizer as P  # noqa: E402
+import congestion_cost as CC  # noqa: E402
 
 OUT = os.path.join(ROOT, "web", "public", "data")
 os.makedirs(OUT, exist_ok=True)
@@ -29,6 +30,14 @@ def dump(name, obj):
 
 def main():
     df = pd.read_csv("data/hex_scored.csv")
+    cost = pd.read_csv("data/hex_cost.csv").set_index("h3_9")["cost_inr_day"].to_dict()
+    trend = (pd.read_csv("data/hex_trend.csv").set_index("h3_9")["trend"].to_dict()
+             if os.path.exists("data/hex_trend.csv") else {})
+    osm = {}
+    if os.path.exists("data/hex_osm.csv"):  # optional, from scripts/enrich_osm.py
+        o = pd.read_csv("data/hex_osm.csv").set_index("h3_9")
+        if "osm_context" in o.columns:
+            osm = o["osm_context"].fillna("").to_dict()
 
     # --- hexes for the deck.gl H3HexagonLayer (compact keys) ---
     hexes = [{
@@ -43,6 +52,9 @@ def main():
         "ip": round(float(r.intensity_pct) * 100),
         "ep": round(float(r.expo_pct) * 100),
         "pp": round(float(r.persist_pct) * 100),
+        "co": round(float(cost.get(r.h3_9, 0))),       # est. delay cost, rupees/day
+        "tr": trend.get(r.h3_9, ""),                   # rising / stable / cooling
+        "os": osm.get(r.h3_9, ""),                     # OSM road + POI context (optional)
         "wy": str(r.why),
     } for r in df.itertuples(index=False)]
     dump("hexes.json", hexes)
@@ -106,6 +118,37 @@ def main():
     dump("forecast.json", {"models": models, "ablation": ablation,
                            "best": fjson["best_model"], "n_cells": fjson["n_cells"]})
 
+    # --- congestion cost (vehicle-hours / rupees) ---
+    cr = CC.report(df)
+    b = cr["band"]
+    dump("cost.json", {
+        "veh_hours_day": round(b["base"]["veh_hours_day"]),
+        "day": {k: round(b[k]["inr_day"]) for k in ("low", "base", "high")},
+        "year": {k: round(b[k]["inr_year"]) for k in ("low", "base", "high")},
+        "top20_share": round(cr["top20_share"] * 100), "cells_50": int(cr["cells_50"]),
+        "costliest": [{"station": str(x.dom_station), "vi": str(x.dom_violation),
+                       "vh": round(float(x.veh_hours_day), 1), "inr": round(float(x.cost_inr_day))}
+                      for x in cr["ranked"].head(8).itertuples(index=False)],
+    })
+
+    # --- detection-validity model ---
+    det = json.load(open("outputs/detection_metrics.json"))
+    dump("detection.json", det)
+
+    # --- emerging hotspots ---
+    tr = pd.read_csv("data/hex_trend.csv")
+    ec = tr["trend"].value_counts()
+    hi = df["impact_score"].quantile(0.75)
+    warn = tr[(tr.trend == "rising") & (tr.impact_score >= hi)].sort_values("impact_score", ascending=False)
+    dump("emerging.json", {
+        "rising": int(ec.get("rising", 0)), "stable": int(ec.get("stable", 0)),
+        "cooling": int(ec.get("cooling", 0)), "support": int(len(tr)),
+        "warn": [{"station": str(x.dom_station), "vi": str(x.dom_violation),
+                  "impact": round(float(x.impact_score), 1),
+                  "growth": round(float(x.rel_slope) * 100), "mom": round(float(x.momentum) * 100)}
+                 for x in warn.head(12).itertuples(index=False)],
+    })
+
     # --- headline KPIs ---
     dump("kpis.json", {
         "violations": 298445, "hotspots": int(n), "days": 151, "stations": 54,
@@ -116,6 +159,13 @@ def main():
         "spearman_impact_count": 0.56,
         "forecast_cov20": round(float(fm.loc[fjson["best_model"], "cov@20"]), 3),
         "face_valid": "20/20",
+        "cost_day_base": round(b["base"]["inr_day"]),
+        "cost_year_base": round(b["base"]["inr_year"]),
+        "veh_hours_day": round(b["base"]["veh_hours_day"]),
+        "top20_cost_share": round(cr["top20_share"] * 100),
+        "detection_auc": round(det["roc_auc"], 3),
+        "rising": int(ec.get("rising", 0)),
+        "early_warning": int(len(warn)),
     })
     print("done -> web/public/data/")
 

@@ -1,4 +1,4 @@
-# ParkPulse — Python dependencies (Python 3.10+)
+# ParkPulse Python dependencies (Python 3.10+)
 
 # --- Core data ---
 pandas
@@ -23,6 +23,6 @@ xgboost            # Tweedie objective
 catboost           # Tweedie objective
 joblib             # persist the trained model
 
-# Added when their steps are built:
+# Optional / run-locally:
 #   statsmodels         # NB/ZINB statistical alternative
-#   streamlit           # dashboard — Step 8
+#   osmnx>=2.0          # real road class + POIs (scripts/enrich_osm.py; needs network)

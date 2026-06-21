@@ -1,12 +1,12 @@
-# ParkPulse — Top 30 Enforcement Zones
+# ParkPulse: Top 30 Enforcement Zones
 
-Ranked by **Congestion Impact Score** (0–100) — a geometric mean of volume × intensity × exposure × persistence, so a zone must be bad on several axes to rank high (not just high count).
+Ranked by **Congestion Impact Score** (0–100): a geometric mean of volume × intensity × exposure × persistence, so a zone must be bad on several axes to rank high (not just high count).
 
-**Recommended window** is *exposure-weighted*: the 2-hour block when this cell's violations most coincide with busy roads (exogenous diurnal curve). It deliberately ignores the daily 4–5am enforcement sweep — the raw *most-logged hour* is shown separately and flagged ⚠ when it falls in that sweep. **Predictability** comes from hour-entropy (tight = schedule it).
+**Recommended window** is *exposure-weighted*: the 2-hour block when this cell's violations most coincide with busy roads (exogenous diurnal curve). It deliberately ignores the daily 4–5am enforcement sweep. The raw *most-logged hour* is shown separately and flagged with "sweep" when it falls in that window. **Predictability** comes from hour-entropy (tight = schedule it).
 
-> The highest-impact zones are **chronic all-day** problems (high hour-entropy → "diffuse"), so they need sustained presence — but the recommended 2-hour window still concentrates the single best slice, capturing **46%** of each zone's exposure-weighted activity on average.
+> The highest-impact zones are **chronic all-day** problems (high hour-entropy, shown as "diffuse"), so they need sustained presence. The recommended 2-hour window still concentrates the single best slice, capturing **46%** of each zone's exposure-weighted activity on average.
 
-> ⚠️ Impact is a transparent engineered index — there is **no traffic-flow ground truth** in this data. Validate by face validity + stability, not accuracy.
+> Note: Impact is an engineered index. There is **no traffic-flow ground truth** in this data. Validate by face validity + stability, not accuracy.
 
 | # | Zone (station) | Location | Impact | Violations | Top violation | Recommended window (IST) | Most-logged hr | Predictability | Why |
 |--:|---|---|--:|--:|---|---|---|---|---|

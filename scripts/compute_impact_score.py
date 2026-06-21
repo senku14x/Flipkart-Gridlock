@@ -1,38 +1,38 @@
 """
-compute_impact_score.py — ParkPulse Step 2/3
+compute_impact_score.py - ParkPulse Step 2/3
 ================================================================================
 Congestion Impact Score (0-100) per H3 res-9 (~150 m) hotspot cell.
 
     score = 100 * (vol_pct * intensity_pct * expo_pct * persist_pct) ** 0.25
 
-A GEOMETRIC MEAN of four percentile-ranked axes, so a cell must be bad on
-SEVERAL dimensions to rank high — the score cannot collapse into raw violation
-count (CLAUDE.md §6 constraint 5).
+A geometric mean of four percentile-ranked axes, so a cell must rank poorly on
+several dimensions to score high. This prevents the score from collapsing into
+raw violation count (CLAUDE.md §6 constraint 5).
 
 Axes (each percentile-ranked across the cells -> (0, 1]):
   volume       <- n_violations         total enforcement burden (extensive)
   intensity    <- weighted blend of per-violation composition: how obstructive
-                  the TYPICAL violation in the cell is (obstruction severity,
+                  the typical violation in the cell is (obstruction severity,
                   main-road / junction / heavy-vehicle / crossing-signal shares)
-  exposure     <- mean_expo            EXOGENOUS road-utilization weight, NOT the
-                  observed violation-hour — this is how we inject "traffic flow"
-                  without a feed while side-stepping the enforcement-schedule
-                  confound (CLAUDE.md §6 constraint 6).
+  exposure     <- mean_expo            exogenous road-utilization weight, not the
+                  observed violation-hour. This is how traffic-load context is
+                  incorporated without a live feed, while avoiding the
+                  enforcement-schedule confound (CLAUDE.md §6 constraint 6).
   persistence  <- active_days_ratio    chronic vs sporadic (extensive)
 
-Minimum-support guard — empirical-Bayes shrinkage (prior count k=10):
-  The per-violation MEAN features (intensity composition shares + mean_expo) are
+Minimum-support guard - empirical-Bayes shrinkage (prior count k=10):
+  The per-violation mean features (intensity composition shares + mean_expo) are
   shrunk toward their global means before ranking:
         shrunk = (n*raw + k*prior) / (n + k)
-  so a cell with 1-2 violations cannot post an extreme intensity/exposure off a
+  so a cell with 1-2 violations cannot post an extreme intensity/exposure from a
   single well-placed event (28.5% of cells have <=3 violations; 112 of them are
   100% main-road/junction flukes). Volume (count) and persistence (active-day
-  ratio) are EXTENSIVE — structurally small for low-support cells — so they are
-  self-guarding and ranked directly. (Shrinking the count itself would be a
-  no-op: percentile rank is invariant to any monotonic transform of it.)
+  ratio) are extensive, so they are structurally small for low-support cells and
+  self-guarding; ranking them directly is sufficient. (Shrinking the count would
+  be a no-op: percentile rank is invariant to any monotonic transform.)
 
-NO GROUND TRUTH: impact is a transparent engineered index, not a validated
-measurement (CLAUDE.md §7). Validate by face validity + stability, never accuracy.
+No ground truth: impact is an engineered index, not a validated measurement
+(CLAUDE.md §7). Validate by face validity + stability, not accuracy.
 
 Input : data/hex_features_res9.csv   (2,534 cells x 28 features)
 Output: data/hex_scored.csv          (features + axes + score + rank + why)
@@ -185,14 +185,14 @@ def score_hotspots(df: pd.DataFrame | None = None, k: float = K_PRIOR) -> pd.Dat
 def print_summary(df: pd.DataFrame) -> None:
     line = "=" * 80
     print(line)
-    print(f"ParkPulse — Congestion Impact Score  |  {len(df)} hotspot cells (H3 res-9)")
+    print(f"ParkPulse: Congestion Impact Score  |  {len(df)} hotspot cells (H3 res-9)")
     print(line)
 
     print("\nScore distribution:")
     print(df["impact_score"].describe(percentiles=[.5, .75, .9, .95, .99]).round(2).to_string())
 
     rho = spearmanr(df.impact_score, df.n_violations).statistic
-    flag = "OK (decoupled)" if rho < 0.85 else "** TOO HIGH — intensity axis not biting **"
+    flag = "OK (decoupled)" if rho < 0.85 else "** TOO HIGH: intensity axis not biting **"
     print(f"\nSpearman(impact_score, n_violations) = {rho:.3f}   [target < ~0.85]  -> {flag}")
     for ax in ["vol_pct", "intensity_pct", "expo_pct", "persist_pct"]:
         print(f"    {ax:14s} vs n_violations: rho={spearmanr(df[ax], df.n_violations).statistic:+.3f}")
@@ -218,8 +218,8 @@ def print_summary(df: pd.DataFrame) -> None:
     ris = ris[["h3_9", "dom_station", "n_violations", "rank_by_count", "impact_rank",
                "impact_score", "why"]].copy()
     ris["impact_score"] = ris["impact_score"].round(1)
-    print("\nRISERS — moderate volume but high intensity/exposure "
-          "(impact rank << raw-count rank): the two-axis design at work")
+    print("\nRISERS: moderate volume but high intensity/exposure "
+          "(impact rank << raw-count rank) - effect of the two-axis design")
     print(ris.to_string(index=False))
 
 
@@ -229,8 +229,8 @@ def main() -> None:
     scored.to_csv(OUT_PATH, index=False)
     print_summary(scored)
     print(f"\nSaved -> {OUT_PATH}   ({scored.shape[0]} rows x {scored.shape[1]} cols)")
-    print("NOTE: impact is a transparent engineered index — there is NO ground-truth "
-          "flow data.\n      Validate by face validity + stability, never 'accuracy' (CLAUDE.md §7).")
+    print("Note: impact is an engineered index. There is no ground-truth flow data. "
+          "Validate by face validity + stability, not accuracy (CLAUDE.md §7).")
 
 
 if __name__ == "__main__":
