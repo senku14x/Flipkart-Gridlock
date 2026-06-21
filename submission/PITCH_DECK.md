@@ -11,6 +11,9 @@ Plain voice, no jargon dumps.
 **ParkPulse**
 Find the parking that actually chokes traffic, and patrol it first.
 
+Team Spectres · Kavya Mahajan, Aarav Harshvardhan, Souhardyo Dasgupta, Vishesh Gupta
+Demo: https://flipkart-gridlock-gamma.vercel.app/
+
 > Gridlock Hackathon 2.0 · Round 2 · Theme: Poor Visibility on Parking-Induced Congestion
 
 *Visual:* the impact map as a full-bleed background, logo top-left.
