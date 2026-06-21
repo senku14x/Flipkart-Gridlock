@@ -1,1 +1,1 @@
-{"violations":298445,"hotspots":2534,"days":151,"stations":54,"top1_impact":35,"cells_50":58,"beats20_greedy":53.0,"beats20_naive":47.0,"spearman_impact_count":0.56,"forecast_cov20":0.348,"face_valid":"20/20"}
+{"violations":298445,"hotspots":2534,"days":151,"stations":54,"top1_impact":35,"cells_50":58,"beats20_greedy":53.0,"beats20_naive":47.0,"spearman_impact_count":0.56,"forecast_cov20":0.348,"face_valid":"20/20","cost_day_base":143444,"cost_year_base":52357132,"veh_hours_day":574,"top20_cost_share":31,"detection_auc":0.758,"rising":227,"early_warning":103}
