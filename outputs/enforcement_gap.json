@@ -1,0 +1,23 @@
+{
+  "windows": [
+    {
+      "name": "Pre-dawn sweep (4-5am)",
+      "effort": 15.3,
+      "impact": 4.0
+    },
+    {
+      "name": "Night (12-5am)",
+      "effort": 33.7,
+      "impact": 7.9
+    },
+    {
+      "name": "Peak-exposure hours",
+      "effort": 28.8,
+      "impact": 50.1
+    }
+  ],
+  "sweep_effort": 15.3,
+  "sweep_impact": 4.0,
+  "night_effort": 33.7,
+  "night_impact": 7.9
+}

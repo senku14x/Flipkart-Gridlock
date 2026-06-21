@@ -39,6 +39,10 @@ def main():
         if "osm_context" in o.columns:
             osm = o["osm_context"].fillna("").to_dict()
 
+    cr = CC.report(df)                       # congestion cost (drives ROI + the cost section)
+    b = cr["band"]
+    cost_day_base = round(b["base"]["inr_day"])
+
     # --- hexes for the deck.gl H3HexagonLayer (compact keys) ---
     hexes = [{
         "h": r.h3_9,
@@ -97,6 +101,7 @@ def main():
             "beat": round(100 * r.beat_impact / par["total"], 1),
             "greedy": round(100 * float(greedy_at[i - 1]), 1),
             "naive": round(100 * float(naive_at[i - 1]), 1),
+            "roi": round(float(greedy_at[i - 1]) * cost_day_base),  # rupees/day of delay relieved
         })
     dump("pareto.json", {
         "lorenz": lorenz,
@@ -119,8 +124,6 @@ def main():
                            "best": fjson["best_model"], "n_cells": fjson["n_cells"]})
 
     # --- congestion cost (vehicle-hours / rupees) ---
-    cr = CC.report(df)
-    b = cr["band"]
     dump("cost.json", {
         "veh_hours_day": round(b["base"]["veh_hours_day"]),
         "day": {k: round(b[k]["inr_day"]) for k in ("low", "base", "high")},
@@ -134,6 +137,9 @@ def main():
     # --- detection-validity model ---
     det = json.load(open("outputs/detection_metrics.json"))
     dump("detection.json", det)
+
+    # --- enforcement gap (effort vs impact) ---
+    dump("gap.json", json.load(open("outputs/enforcement_gap.json")))
 
     # --- emerging hotspots ---
     tr = pd.read_csv("data/hex_trend.csv")

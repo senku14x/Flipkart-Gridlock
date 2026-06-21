@@ -67,6 +67,7 @@ Full roadmap, design, and submission tracker: **`ParkPulse_Project_Master.md`** 
 │   ├── congestion_cost.py        # delay cost (vehicle-hours + rupees)
 │   ├── detection_validity.py     # false-detection classifier (2nd ML model)
 │   ├── emerging_hotspots.py      # cells rising faster than the city
+│   ├── enforcement_gap.py        # effort vs impact by time window
 │   └── enrich_osm.py             # optional: real road class + POIs (run locally)
 └── outputs/                      # generated artifacts
     ├── parkpulse_map.html        #   interactive impact map
