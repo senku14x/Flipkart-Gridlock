@@ -23,6 +23,6 @@ xgboost            # Tweedie objective
 catboost           # Tweedie objective
 joblib             # persist the trained model
 
-# Added when their steps are built:
+# Optional / run-locally:
 #   statsmodels         # NB/ZINB statistical alternative
-#   streamlit           # not used; the dashboard is the Next.js app in web/
+#   osmnx>=2.0          # real road class + POIs (scripts/enrich_osm.py; needs network)
