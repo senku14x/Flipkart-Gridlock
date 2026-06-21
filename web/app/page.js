@@ -59,12 +59,12 @@ export default function Home() {
               Gridlock Hackathon 2.0 · Poor Visibility on Parking-Induced Congestion
             </div>
             <h1 className="mt-5 max-w-3xl text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
-              AI parking intelligence for <span className="text-accent">impact-prioritized</span> enforcement.
+              Patrol the parking that actually <span className="text-accent">chokes traffic</span>.
             </h1>
             <p className="mt-5 max-w-2xl text-lg text-slate-300">
-              ParkPulse turns 298K real Bengaluru parking-violation records into a decision tool — scoring every
-              hotspot by its drag on traffic flow, and telling enforcement <b>where and when</b> to deploy for the
-              most congestion relief per patrol-hour.
+              Bengaluru logs thousands of parking violations a day, but enforcement can&apos;t tell which ones
+              actually hurt traffic. ParkPulse reads 298,000 real records and scores every hotspot by how much it
+              slows the road, so patrols go <b>where and when</b> they&apos;ll relieve the most congestion.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <a href="#map" className="rounded-xl bg-accent px-5 py-2.5 font-medium text-white shadow-lg shadow-accent/20 hover:brightness-110">Explore the map</a>
@@ -80,33 +80,33 @@ export default function Home() {
         </section>
 
         <Section id="map" eyebrow="Where it hurts" title="The impact-weighted hotspot map"
-          sub="Every ~150 m cell, colored by Congestion Impact Score. Toggle to raw density and watch the city re-rank — chronic night-sweep clusters cool down; obstructive, peak-hour chokepoints light up. Hover any cell for its breakdown.">
+          sub="Every cell, about 150 m across, is colored by its Congestion Impact Score. Switch to raw density and the map shifts: spots that mostly catch pre-dawn enforcement fade out, while the ones blocking busy roads at rush hour jump forward. Hover any cell to see why it scores.">
           <ImpactMap />
         </Section>
 
-        <Section id="zones" eyebrow="The ops payload" title="Ranked enforcement zones"
-          sub="The top 30 cells by impact, each with a dominant violation, the streets involved, and an exposure-weighted enforcement window — where and when, not just where.">
+        <Section id="zones" eyebrow="The shortlist" title="Ranked enforcement zones"
+          sub="The 30 highest-impact cells, each with its main violation, the streets involved, and the two-hour window when enforcing there does the most good. Where and when, not just where.">
           <Zones />
         </Section>
 
-        <Section id="forecast" eyebrow="The one real ML model" title="Violation forecaster"
-          sub="A genuine supervised model with real ground truth, on a strict temporal holdout — benchmarked across the whole gradient-boosting family and honestly stress-tested for more performance.">
+        <Section id="forecast" eyebrow="Looking ahead" title="Violation forecaster"
+          sub="This is the one piece with real answers to check against. We train on past months and test on ones the model has never seen, compare every major gradient-boosting library, then push hard to squeeze out more accuracy. Here is what actually helped.">
           <Forecaster />
         </Section>
 
-        <Section id="patrols" eyebrow="From insight to action" title="Patrol optimizer"
-          sub="Drag the slider: a greedy max-coverage optimizer assigns N patrol beats to maximize the congestion impact relieved. Because the worst cells cluster, it beats a naive top-N pick — same fleet, more coverage.">
+        <Section id="patrols" eyebrow="Put it to work" title="Patrol optimizer"
+          sub="Set your fleet size with the slider. The optimizer picks beats that together cover the most congestion impact. Since the worst cells sit close to one another, spreading patrols out beats simply taking the top N. Same number of patrols, more of the city covered.">
           <Optimizer />
         </Section>
 
-        <Section id="method" eyebrow="Why you can trust it" title="Methodology & honesty"
-          sub="The judging-grade caveats, surfaced — what the score is, what the data can and can't say, and how it sharpens the day a flow feed arrives.">
+        <Section id="method" eyebrow="The fine print" title="What this is, and what it isn't"
+          sub="A few things worth saying plainly: what the score really measures, where the data falls short, and how the whole system gets sharper the day it can read live traffic speeds.">
           <Methodology />
         </Section>
 
         <footer className="mt-24 border-t border-white/5 pt-8 text-sm text-slate-500">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <span>ParkPulse — Gridlock Hackathon 2.0, Round 2. Built on 298,445 Bengaluru parking-violation records.</span>
+            <span>ParkPulse, built for Gridlock Hackathon 2.0 (Round 2) on 298,445 real Bengaluru parking-violation records.</span>
             <a href="https://github.com/senku14x/Flipkart-Gridlock" className="hover:text-slate-300">Repository ↗</a>
           </div>
         </footer>

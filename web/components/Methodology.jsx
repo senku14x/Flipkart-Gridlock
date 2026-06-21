@@ -1,18 +1,18 @@
 const CARDS = [
   {
-    t: "No traffic-flow ground truth",
-    d: "There are no speeds or travel-times in the data, so the Congestion Impact Score is a transparent engineered index — never claimed as a measured value. We validate it by face validity (20/20 top zones match known chokepoints) and month-to-month stability (ρ≈0.86), not accuracy.",
-    tag: "Honesty",
+    t: "We never measured traffic",
+    d: "The data has no speeds or travel times, so the impact score is a careful estimate, not a measurement, and we don't pretend otherwise. Instead of claiming accuracy, we check that the top-scoring spots are places locals already know are bad (20 of the top 20 are), and that the ranking barely moves month to month.",
+    tag: "Upfront",
   },
   {
-    t: "The enforcement-schedule confound",
-    d: "Recorded violations ≈ parking demand × patrol presence — a daily 4–5am sweep is 15.3% of the data. So impact and enforcement windows are weighted by an exogenous road-utilisation curve, not by the observed violation hour. The forecaster predicts expected detections under current enforcement, stated plainly.",
-    tag: "Rigor",
+    t: "A violation only counts when someone logs it",
+    d: "One daily 4–5am sweep makes up 15% of the records, and that isn't when traffic is bad. So we weight everything by when roads are actually busy, not by when tickets happen to get written. The forecaster predicts logged violations under today's patrol habits, and we say that out loud rather than dressing it up as pure demand.",
+    tag: "The catch",
   },
   {
-    t: "Fusion-ready by design",
-    d: "The impact score is a model awaiting labels: the day a live speed feed exists, observed delay becomes the label and today's factors become features learned by regression. The data gap is a roadmap, not a wall — the architecture plugs straight into a flow feed, an events calendar, or patrol-roster data.",
-    tag: "Architecture",
+    t: "Built to get sharper",
+    d: "Right now the score is hand-built. The moment a live speed feed shows up, those same factors become inputs and the measured slowdown becomes the thing to predict. The missing data is a roadmap, not a dead end. Plug in traffic speeds, an events calendar, or patrol rosters and the whole system improves.",
+    tag: "What's next",
   },
 ];
 

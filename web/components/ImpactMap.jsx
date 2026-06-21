@@ -85,8 +85,8 @@ export default function ImpactMap() {
         </div>
         <p className="mt-2 text-[12px] leading-snug text-slate-400">
           {mode === "impact"
-            ? "Congestion Impact Score — volume × intensity × exposure × persistence."
-            : "Raw violation-count percentile. Toggle to Impact to see the re-ranking."}
+            ? "How much each cell drags on traffic, from its volume, intensity, exposure and persistence."
+            : "Just how many violations were logged here. Switch back to Impact to see what changes."}
         </p>
       </div>
 

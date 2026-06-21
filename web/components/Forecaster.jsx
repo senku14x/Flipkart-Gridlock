@@ -21,8 +21,8 @@ export default function Forecaster() {
   return (
     <div className="grid gap-4 lg:grid-cols-2">
       <div className="card p-5">
-        <h3 className="font-semibold text-white">Model bake-off — coverage@20 on the holdout</h3>
-        <p className="mt-1 text-xs text-slate-400">Four gradient-boosting models (orange) vs. three naïve baselines (grey). Train Nov–Feb, test Mar–Apr.</p>
+        <h3 className="font-semibold text-white">Model bake-off: coverage@20 on the test months</h3>
+        <p className="mt-1 text-xs text-slate-400">Four gradient-boosting models (orange) against three simple baselines (grey). Trained on Nov–Feb, tested on Mar–Apr.</p>
         <div className="mt-3 h-72">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={models} layout="vertical" margin={{ left: 28, right: 16, top: 4, bottom: 0 }}>
@@ -40,8 +40,8 @@ export default function Forecaster() {
 
       <div className="flex flex-col gap-4">
         <div className="card p-5">
-          <h3 className="font-semibold text-white">Feature engineering — base set wins</h3>
-          <p className="mt-1 text-xs text-slate-400">We engineered 29 extra features in 4 groups. None beat the base 24 — granular per-cell×weekday features overfit. Honest: the ceiling is data, not features.</p>
+          <h3 className="font-semibold text-white">We tried adding features. It didn&apos;t help.</h3>
+          <p className="mt-1 text-xs text-slate-400">We added 29 more features across four groups. None beat the original 24, and the fine-grained per-cell, per-weekday ones just overfit. The limit here is the data, not the model.</p>
           <div className="mt-3 h-40">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={abl} margin={{ left: -20, right: 8, top: 4, bottom: 0 }}>
@@ -60,7 +60,7 @@ export default function Forecaster() {
           <div><div className="mono text-2xl font-bold text-acc2">+36%</div><div className="text-xs text-slate-400">cov@20 vs seasonal-naive baseline</div></div>
           <div><div className="mono text-2xl font-bold text-white">3.45</div><div className="text-xs text-slate-400">Tweedie deviance (vs 90 naive)</div></div>
           <div className="col-span-2 text-xs leading-relaxed text-slate-400">
-            Genuine supervised ML with <b className="text-slate-200">real ground truth</b> and a strict temporal holdout — the one unambiguous &quot;AI&quot; model. The four libraries land within ~0.5 pt of each other: the <b className="text-slate-200">data, not the framework, is the ceiling</b>.
+            This is the only model here we can actually grade, since it&apos;s tested on months it never saw. All four libraries finish within about half a point of each other, which tells you the <b className="text-slate-200">data sets the ceiling, not the library you pick</b>.
           </div>
         </div>
       </div>
