@@ -20,7 +20,9 @@ relief per patrol-hour.
 - ✅ **Forecaster (Step 7) complete** — multi-model GBM bake-off (LightGBM / XGBoost / CatBoost /
   HistGBM, Tweedie/Poisson) on a strict temporal holdout; beats the seasonal-naive baseline and
   wins decisively on calibration; best model + metrics + figure saved.
-- ▶ **Next:** patrol optimizer + Pareto (Step 5) and the Streamlit dashboard (Step 8).
+- ✅ **Patrol optimizer + Pareto (Step 5) complete** — greedy max-coverage deployment plan (20 beats
+  cover 53% of citywide impact) + Pareto concentration + a forecaster-driven next-day plan.
+- ▶ **Next:** Streamlit dashboard (Step 8) — the demo link tying everything together.
 
 Full roadmap, design, and submission tracker: **`ParkPulse_Project_Master.md`** (source of truth).
 
@@ -52,7 +54,9 @@ Full roadmap, design, and submission tracker: **`ParkPulse_Project_Master.md`** 
 │   ├── build_map.py              # Step 2/3 — folium impact map (raw↔impact toggle)
 │   ├── rank_zones.py             # Step 2/3 — top enforcement zones + exposure-weighted windows
 │   ├── face_validity.py          # Step 2/3 — face validity + month-to-month stability
-│   └── forecast.py               # Step 7 — multi-model GBM forecaster (temporal holdout)
+│   ├── forecast.py               # Step 7 — multi-model GBM forecaster (temporal holdout)
+│   ├── forecast_tune.py          # Step 7 — tuning/ensemble check (no material gain)
+│   └── patrol_optimizer.py       # Step 5 — patrol optimizer + Pareto
 └── outputs/                      # generated artifacts
     ├── parkpulse_map.html        #   interactive impact map
     ├── top_zones.md / .csv       #   ranked enforcement zones (ops payload)
@@ -60,7 +64,9 @@ Full roadmap, design, and submission tracker: **`ParkPulse_Project_Master.md`** 
     ├── face_validity.md          #   corroboration report
     ├── forecast_metrics.md/.csv  #   forecaster model comparison
     ├── forecast_eval.png         #   coverage curves + feature importance
-    └── forecast_model.pkl/.json  #   best trained model + config
+    ├── forecast_model.pkl/.json  #   best trained model + config
+    ├── patrol_plan.md / .csv     #   deployment plan (where + when)
+    └── pareto.png                #   impact concentration + patrol coverage
 ```
 
 ---
@@ -97,6 +103,12 @@ python scripts/face_validity.py          # → outputs/face_validity.md (face va
 XGBoost / CatBoost / HistGBM on CPU in well under a minute):
 ```bash
 python scripts/forecast.py               # → outputs/forecast_metrics.md, forecast_eval.png, forecast_model.pkl
+```
+
+**Step 5 — Patrol optimizer + Pareto** (greedy deployment plan; reads the impact score, optionally
+the forecaster for a next-day plan):
+```bash
+python scripts/patrol_optimizer.py       # → outputs/patrol_plan.md / .csv, pareto.png
 ```
 
 **Regenerate the EDA artifacts (optional):** `scripts/` holds the pipeline that produced the committed
