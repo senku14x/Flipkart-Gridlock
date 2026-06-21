@@ -1,0 +1,22 @@
+# --- Raw dataset ---
+# violations.csv is ~105MB and exceeds GitHub's 100MB limit (see CLAUDE.md §10).
+# Matched in any directory so it can never be committed by accident.
+violations.csv
+
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# --- Virtual environments ---
+.venv/
+venv/
+env/
+
+# --- Training cruft ---
+catboost_info/
+
+# --- Local / OS ---
+.env
+.DS_Store
