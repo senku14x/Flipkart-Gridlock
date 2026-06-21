@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import Gap from "../components/Gap";
 import Zones from "../components/Zones";
 import Cost from "../components/Cost";
 import Emerging from "../components/Emerging";
@@ -90,6 +91,11 @@ export default function Home() {
         <Section id="map" eyebrow="Where it hurts" title="The impact-weighted hotspot map"
           sub="Every cell, about 150 m across, is colored by its Congestion Impact Score. Switch to raw density and the map shifts: spots that mostly catch pre-dawn enforcement fade out, while the ones blocking busy roads at rush hour jump forward. Hover any cell to see why it scores.">
           <ImpactMap />
+        </Section>
+
+        <Section id="gap" eyebrow="The visibility gap" title="Effort is going to the wrong hours"
+          sub="Recorded violations double as a map of enforcement effort. Weight each by congestion impact and a gap opens up: a large share of effort lands at night, when roads are empty, and misses the peak-hour chokepoints.">
+          <Gap />
         </Section>
 
         <Section id="zones" eyebrow="The shortlist" title="Ranked enforcement zones"

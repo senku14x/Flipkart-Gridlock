@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceDot,
 } from "recharts";
+import { inr } from "../lib/format";
 
 const TT = {
   background: "#0b1020", border: "1px solid rgba(255,255,255,.12)",
@@ -32,6 +33,7 @@ export default function Optimizer() {
           <div className="text-right">
             <div className="mono text-5xl font-bold text-acc2">{cur.greedy}%</div>
             <div className="text-sm text-slate-400">of citywide impact covered</div>
+            <div className="mono mt-1 text-lg font-semibold text-gold">≈{inr(cur.roi)}/day relieved</div>
           </div>
         </div>
 
