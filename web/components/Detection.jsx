@@ -44,7 +44,7 @@ export default function Detection() {
           </tbody>
         </table>
         <div className="mt-3 text-[12px] leading-snug text-slate-500">
-          Top signals: {d.top_features.slice(0, 5).map((f) => f.f).join(", ")}. Location dominates — some areas
+          Top signals: {d.top_features.slice(0, 5).map((f) => f.f).join(", ")}. Location dominates: some areas
           generate far more contested reports than others.
         </div>
       </div>

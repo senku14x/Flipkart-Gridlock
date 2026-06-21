@@ -45,7 +45,7 @@ export default function Emerging() {
         <div className="mt-3 grid gap-1.5 sm:grid-cols-2">
           {e.warn.map((w, i) => (
             <div key={i} className="flex items-center gap-3 rounded-lg bg-white/5 px-3 py-2">
-              <span className="text-accent">▲</span>
+              <span className="h-6 w-1 shrink-0 rounded-full bg-accent" />
               <div className="min-w-0 flex-1">
                 <div className="truncate text-sm font-medium text-white">{w.station}</div>
                 <div className="truncate text-[11px] text-slate-400">{w.vi}</div>

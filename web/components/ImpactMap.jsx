@@ -122,8 +122,8 @@ export default function ImpactMap() {
           <div className="text-[12px] text-slate-400">{hover.o.vi} · {hover.o.n.toLocaleString()} violations</div>
           <div className="mt-1 flex items-center gap-2 text-[12px]">
             <span className="text-gold">≈{inr(hover.o.co)}/day delay</span>
-            {hover.o.tr === "rising" && <span className="rounded bg-accent/20 px-1.5 text-accent">▲ rising</span>}
-            {hover.o.tr === "cooling" && <span className="rounded bg-acc2/20 px-1.5 text-acc2">▼ cooling</span>}
+            {hover.o.tr === "rising" && <span className="rounded bg-accent/20 px-1.5 text-accent">rising</span>}
+            {hover.o.tr === "cooling" && <span className="rounded bg-acc2/20 px-1.5 text-acc2">cooling</span>}
           </div>
           <div className="my-2 space-y-1">
             <AxisBar label="Volume" v={hover.o.vp} />
