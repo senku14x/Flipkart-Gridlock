@@ -34,9 +34,9 @@ These two facts shape every modeling decision below. We treat them as the openin
 
 A pipeline that moves from *reactive patrol* to *predictive, impact-prioritized enforcement*, in three layers:
 
-- **See** — an impact-weighted hotspot map and a ranked shortlist of zones.
-- **Understand** — what the congestion costs, where effort is misallocated, and which spots are getting worse.
-- **Act** — a forecaster, a false-report triage model, and a patrol optimizer that outputs a deployment plan with a rupee ROI.
+- **See:** an impact-weighted hotspot map and a ranked shortlist of zones.
+- **Understand:** what the congestion costs, where effort is misallocated, and which spots are getting worse.
+- **Act:** a forecaster, a false-report triage model, and a patrol optimizer that outputs a deployment plan with a rupee ROI.
 
 Everything runs on the cleaned data with no live feed, and is designed to absorb one when available.
 

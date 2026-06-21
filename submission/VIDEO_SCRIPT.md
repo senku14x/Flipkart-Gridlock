@@ -15,7 +15,7 @@ record. Everything points at the live site, so nothing is faked.
 
 ---
 
-### [0:00] Cold open — the problem
+### [0:00] Cold open: the problem
 **Screen:** Start at the top of the site (hero on screen, not scrolling yet).
 **Voiceover:** "Every day, Bengaluru's traffic police log thousands of parking
 violations. But that data only shows where tickets get written, not where parking
