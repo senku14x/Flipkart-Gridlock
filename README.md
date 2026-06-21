@@ -22,7 +22,9 @@ relief per patrol-hour.
   wins decisively on calibration; best model + metrics + figure saved.
 - ✅ **Patrol optimizer + Pareto (Step 5) complete** — greedy max-coverage deployment plan (20 beats
   cover 53% of citywide impact) + Pareto concentration + a forecaster-driven next-day plan.
-- ▶ **Next:** Streamlit dashboard (Step 8) — the demo link tying everything together.
+- ✅ **Interactive web app (Step 8) complete** — a custom **Next.js + deck.gl** site (`web/`) tying
+  the impact map, ranked zones, forecaster, and live patrol optimizer into one demo. Fully static
+  (precomputed JSON), deploys to Vercel with no backend.
 
 Full roadmap, design, and submission tracker: **`ParkPulse_Project_Master.md`** (source of truth).
 
@@ -67,6 +69,10 @@ Full roadmap, design, and submission tracker: **`ParkPulse_Project_Master.md`** 
     ├── forecast_model.pkl/.json  #   best trained model + config
     ├── patrol_plan.md / .csv     #   deployment plan (where + when)
     └── pareto.png                #   impact concentration + patrol coverage
+└── web/                          # Next.js + deck.gl interactive site (Step 8)
+    ├── app/ · components/ · lib/ #   UI (impact map, zones, forecaster, optimizer)
+    ├── public/data/*.json        #   precomputed app data (from web/prepare_data.py)
+    └── prepare_data.py           #   exports committed artifacts -> JSON for the app
 ```
 
 ---

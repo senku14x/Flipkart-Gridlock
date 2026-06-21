@@ -29,7 +29,8 @@ The success test: a traffic officer reads the output and says *"tomorrow send th
 - ✅ **Step 2–3 DONE** — Congestion Impact Score (`scripts/compute_impact_score.py` → `data/hex_scored.csv`), impact-weighted map (`scripts/build_map.py` → `outputs/parkpulse_map.html`), ranked zones + exposure-weighted windows (`scripts/rank_zones.py` → `outputs/top_zones.md`), face-validity + stability (`scripts/face_validity.py`). Spearman(impact, count)=0.56; 20/20 top zones face-valid; month-to-month ρ≈0.75.
 - ✅ **Step 7 DONE (forecaster)** — `scripts/forecast.py`: multi-model GBM bake-off (LightGBM/XGBoost/CatBoost/HistGBM, Tweedie/Poisson) on a strict temporal holdout (train Nov–Feb, test Mar–Apr), 906 hotspot cells. Beats seasonal-naive (+36% coverage@20) and dominates on calibration; honest that base-rate explains most of the "where". Feature-engineering ablation: +29 features (weekly/momentum/holiday/spatial) tested — **base 24-feature set is optimal**; granular per-cell×weekday features overfit (~16 samples each). Hyperparameter search + 4-model ensemble also add nothing (within noise; `scripts/forecast_tune.py`). Ceiling is data (flow feed / events / patrol roster), not features. Outputs `outputs/forecast_metrics.md`, `forecast_eval.png`, `forecast_model.pkl`.
 - ✅ **Step 5 DONE (patrol optimizer)** — `scripts/patrol_optimizer.py`: Pareto on exposure-weighted `impact_sum` (top 20 cells = 31% of impact; 58 cells = 50%) + greedy max-coverage optimizer (each beat = cell + H3 ring; 20 beats cover 53% vs 47% naive) + forecaster-driven next-day plan (14/20 beats shared with the static plan). Outputs `outputs/patrol_plan.md/.csv`, `pareto.png`.
-- ▶ **NEXT:** Streamlit dashboard (Step 8) — ties map + zones + forecaster + optimizer into the demo link.
+- ✅ **Step 8 DONE (web app)** — `web/`: a custom **Next.js (static export) + deck.gl `H3HexagonLayer` + Recharts** site (NOT Streamlit — Streamlit can't run on Vercel). Sections: hero/KPIs, impact map (raw↔impact toggle, hover breakdown), ranked zones, forecaster (bake-off + ablation), live patrol optimizer (N-beats slider), methodology. Fully static — reads `web/public/data/*.json` from `web/prepare_data.py`; deploys to Vercel (Root Directory = `web`), no backend/tokens. Verified building + rendering headless (deck.gl + React 19).
+- ▶ **NEXT:** deploy (user → Vercel) + Step 9 deliverables (deck, video, source zip, screenshots).
 - Roadmap, decisions, and the submission tracker: **`ParkPulse_Project_Master.md`** (the source of truth).
 
 ---
@@ -62,7 +63,8 @@ parkpulse/
 │   ├── forecast_tune.py          # Step 7 — tuning/ensemble check (no material gain) (DONE)
 │   └── patrol_optimizer.py       # Step 5 — patrol optimizer + Pareto (DONE)
 ├── outputs/                      # generated: parkpulse_map.html, top_zones.md/.csv, face_validity.md
-└── app/                          # Streamlit dashboard — later
+└── web/                          # Step 8 — Next.js + deck.gl interactive site (DONE; deploy on Vercel)
+    ├── app/ components/ lib/     #   UI; public/data/*.json from web/prepare_data.py
 ```
 
 ---
