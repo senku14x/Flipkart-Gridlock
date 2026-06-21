@@ -164,7 +164,10 @@ def main():
                    os.path.join(HERE, "ParkPulse_Pitch_Deck.docx"))
     build_solution(os.path.join(HERE, "SOLUTION.md"),
                    os.path.join(HERE, "ParkPulse_Solution.docx"))
-    print(f"wrote ParkPulse_Pitch_Deck.docx ({n} slides) + ParkPulse_Solution.docx")
+    build_solution(os.path.join(HERE, "VIDEO_SCRIPT.md"),
+                   os.path.join(HERE, "ParkPulse_Video_Script.docx"))
+    print(f"wrote ParkPulse_Pitch_Deck.docx ({n} slides) + ParkPulse_Solution.docx "
+          "+ ParkPulse_Video_Script.docx")
 
 
 if __name__ == "__main__":
