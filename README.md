@@ -26,6 +26,10 @@ per patrol-hour.
 - **Interactive web app (Step 8) complete.** A custom **Next.js + deck.gl** site (`web/`) that ties
   the impact map, ranked zones, forecaster, and live patrol optimizer into one demo. Fully static
   (precomputed JSON), deploys to Vercel with no backend.
+- **Decision-support upgrades complete.** A congestion-cost estimate (vehicle-hours and rupees,
+  ~Rs 5.2 cr/year; worst 20 cells = 31%), emerging-hotspot detection (cells escalating faster than
+  the city), a second ML model that flags likely-false reports (ROC-AUC 0.758), and an optional OSM
+  road-criticality enrichment. All surfaced in the web app.
 
 Full roadmap, design, and submission tracker: **`ParkPulse_Project_Master.md`** (source of truth).
 
@@ -59,7 +63,11 @@ Full roadmap, design, and submission tracker: **`ParkPulse_Project_Master.md`** 
 │   ├── face_validity.py          # Step 2/3: face validity + month-to-month stability
 │   ├── forecast.py               # Step 7: multi-model GBM forecaster (temporal holdout)
 │   ├── forecast_tune.py          # Step 7: tuning/ensemble check (no material gain)
-│   └── patrol_optimizer.py       # Step 5: patrol optimizer + Pareto
+│   ├── patrol_optimizer.py       # Step 5: patrol optimizer + Pareto
+│   ├── congestion_cost.py        # delay cost (vehicle-hours + rupees)
+│   ├── detection_validity.py     # false-detection classifier (2nd ML model)
+│   ├── emerging_hotspots.py      # cells rising faster than the city
+│   └── enrich_osm.py             # optional: real road class + POIs (run locally)
 └── outputs/                      # generated artifacts
     ├── parkpulse_map.html        #   interactive impact map
     ├── top_zones.md / .csv       #   ranked enforcement zones (ops payload)

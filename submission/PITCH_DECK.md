@@ -131,7 +131,22 @@ Find the parking that actually chokes traffic, and patrol it first.
 
 ---
 
-### 10. Honest about the gap
+### 10. The cost, and two more models
+
+- **The cost:** the impact score becomes ~Rs 5.2 crore/year of delay (vehicle-hours, with a band); the worst 20 cells carry 31% of it.
+- **Rising hotspots:** 227 cells are escalating faster than the city, an early warning before they entrench.
+- **False-report triage:** a second model (ROC-AUC 0.758) flags likely-rejected reports; flag the top 20% and you catch 43% of them.
+
+> Speaker: Three additions that turn the prioritisation into a business case and a
+> fuller toolkit. The cost gives leadership a number. Rising hotspots make it proactive.
+> And the triage model means patrols go to real problems, not the roughly one-in-three
+> reports that get thrown out on review.
+
+*Visual:* the cost headline beside the rising and triage panels.
+
+---
+
+### 11. Honest about the gap
 
 - No traffic speeds means the score is an **estimate, not a measurement.** We say so.
 - We validate by **face validity** (20 of the top 20 are known bad spots) and
@@ -148,7 +163,7 @@ Find the parking that actually chokes traffic, and patrol it first.
 
 ---
 
-### 11. The product
+### 12. The product
 
 - A fast, **static** web app: Next.js + deck.gl + Recharts.
 - All compute is precomputed, so it runs on a CDN with **no backend, no API keys.**
@@ -162,7 +177,7 @@ Find the parking that actually chokes traffic, and patrol it first.
 
 ---
 
-### 12. Impact and what's next
+### 13. Impact and what's next
 
 - **Today:** turns a noisy violation feed into a ranked where-and-when for patrols.
 - **Next:** plug in live speeds, an events calendar, and patrol rosters.

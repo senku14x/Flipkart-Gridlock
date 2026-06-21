@@ -31,7 +31,7 @@ ParkPulse closes that gap. It reads 298,445 real violation records from across t
 city and turns them into a single ranked answer to one question: where, and when,
 should a patrol go to relieve the most congestion?
 
-It works in four parts:
+It works in several parts:
 
 - **A Congestion Impact Score** that rates every cell (about 150 m across) on the
   things a raw count misses: how much each violation blocks the carriageway, how busy
@@ -47,6 +47,13 @@ It works in four parts:
 - **A patrol optimizer** that turns all of this into a deployment plan. Because the
   worst spots cluster together, 20 well-placed patrols cover 53% of the city's
   parking-induced congestion impact, against 47% if you just take the top 20.
+- **A cost estimate** that converts the impact score into vehicle-hours and rupees of
+  delay (about Rs 5.2 crore/year, with a sensitivity band), so the case for acting is a
+  number, not just a rank, and the worst 20 cells carry 31% of it.
+- **Emerging-hotspot detection** that flags the cells escalating faster than the city,
+  so enforcement can act before a spot becomes entrenched.
+- **A second machine-learning model** that predicts which reports are likely false
+  (ROC-AUC 0.758), so patrols are sent to real problems instead of contested ones.
 
 We are upfront about the one thing the data does not contain: actual traffic speeds.
 So the impact score is a careful estimate, not a measurement, and we validate it the
@@ -89,7 +96,13 @@ python scripts/compute_impact_score.py   # Congestion Impact Score -> data/hex_s
 python scripts/rank_zones.py             # ranked zones + windows  -> outputs/top_zones.*
 python scripts/forecast.py               # forecaster bake-off      -> outputs/forecast_*
 python scripts/patrol_optimizer.py       # patrol plan + Pareto     -> outputs/patrol_plan.*
+python scripts/congestion_cost.py        # delay cost estimate      -> outputs/congestion_cost.md
+python scripts/detection_validity.py     # false-detection model    -> outputs/detection_metrics.*
+python scripts/emerging_hotspots.py      # rising hotspots          -> outputs/emerging_hotspots.md
 python web/prepare_data.py               # refresh the app's JSON   -> web/public/data/*
+
+# optional, needs network access (run on your own machine, then re-run prepare_data.py):
+python scripts/enrich_osm.py             # real road class + POIs    -> data/hex_osm.csv
 ```
 
 The raw 105 MB violations CSV is not committed (it exceeds GitHub's limit and is the
