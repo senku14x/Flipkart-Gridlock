@@ -14,6 +14,9 @@ __pycache__/
 venv/
 env/
 
+# --- Training cruft ---
+catboost_info/
+
 # --- Local / OS ---
 .env
 .DS_Store

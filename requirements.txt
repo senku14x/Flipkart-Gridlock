@@ -17,7 +17,12 @@ seaborn
 # --- Interactive map (impact-weighted hotspot map, Step 2/3) ---
 folium
 
+# --- Forecaster (Step 7): gradient-boosting bake-off ---
+lightgbm           # Tweedie objective
+xgboost            # Tweedie objective
+catboost           # Tweedie objective
+joblib             # persist the trained model
+
 # Added when their steps are built:
-#   lightgbm            # forecaster (Tweedie/Poisson objective) — Step 7
 #   statsmodels         # NB/ZINB statistical alternative
 #   streamlit           # dashboard — Step 8

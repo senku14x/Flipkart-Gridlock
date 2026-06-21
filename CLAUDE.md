@@ -27,7 +27,8 @@ The success test: a traffic officer reads the output and says *"tomorrow send th
   - `data/parkpulse_clean_records.parquet` — 298,445 cleaned records (IST, exploded violations, PCU + obstruction weights, H3 indices). Record grain.
   - `data/hex_features_res9.csv` — **2,534 hotspot cells × 28 features**. The modeling table. Schema in §5.
 - ✅ **Step 2–3 DONE** — Congestion Impact Score (`scripts/compute_impact_score.py` → `data/hex_scored.csv`), impact-weighted map (`scripts/build_map.py` → `outputs/parkpulse_map.html`), ranked zones + exposure-weighted windows (`scripts/rank_zones.py` → `outputs/top_zones.md`), face-validity + stability (`scripts/face_validity.py`). Spearman(impact, count)=0.56; 20/20 top zones face-valid; month-to-month ρ≈0.75.
-- ▶ **NEXT:** patrol optimizer + Pareto (Step 5), violation forecaster (genuine supervised ML, temporal holdout — Step 7), Streamlit dashboard (Step 8).
+- ✅ **Step 7 DONE (forecaster)** — `scripts/forecast.py`: multi-model GBM bake-off (LightGBM/XGBoost/CatBoost/HistGBM, Tweedie/Poisson) on a strict temporal holdout (train Nov–Feb, test Mar–Apr), 906 hotspot cells. Beats seasonal-naive (+36% coverage@20) and dominates on calibration; honest that base-rate explains most of the "where". Outputs `outputs/forecast_metrics.md`, `forecast_eval.png`, `forecast_model.pkl`.
+- ▶ **NEXT:** patrol optimizer + Pareto (Step 5), Streamlit dashboard (Step 8).
 - Roadmap, decisions, and the submission tracker: **`ParkPulse_Project_Master.md`** (the source of truth).
 
 ---
@@ -56,7 +57,7 @@ parkpulse/
 │   ├── build_map.py              # Step 2/3 — folium impact map, raw↔impact toggle (DONE)
 │   ├── rank_zones.py             # Step 2/3 — ranked zones + exposure-weighted windows (DONE)
 │   ├── face_validity.py          # Step 2/3 — face validity + month-to-month stability (DONE)
-│   └── forecast.py               # Step 7 — later
+│   └── forecast.py               # Step 7 — multi-model GBM forecaster, temporal holdout (DONE)
 ├── outputs/                      # generated: parkpulse_map.html, top_zones.md/.csv, face_validity.md
 └── app/                          # Streamlit dashboard — later
 ```
