@@ -172,12 +172,12 @@ Alternates: *"ParkPulse: From Parking Violations to a Congestion-Impact Map"* ·
 Each step produces something showable, so we're never far from a demo.
 
 - [✅] **0. Data profiling + full EDA** — quality, temporal/spatial/categorical/distributional analysis, 12 plots, feature table, modeling playbook → `ParkPulse_EDA_Report.md`.
-- [🟡] **1. Foundation & cleaning** — DONE inside EDA (`parkpulse_clean_records.parquet`: UTC→IST, exploded violations, PCU + obstruction weights, hex features). Ready to reuse.
-- [⬜] **2. Hotspot detection + first impact-weighted heatmap.**
-- [⬜] **3. Congestion Impact Score** (factors + geometric mean + breakdown).
-- [⬜] **4. Ranked zones + enforcement windows.**
+- [✅] **1. Foundation & cleaning** — DONE inside EDA (`parkpulse_clean_records.parquet`: UTC→IST, exploded violations, PCU + obstruction weights, hex features). Ready to reuse.
+- [✅] **2. Hotspot detection + impact-weighted heatmap** — `scripts/build_map.py` → `outputs/parkpulse_map.html` (raw↔impact toggle).
+- [✅] **3. Congestion Impact Score** — `scripts/compute_impact_score.py` → `data/hex_scored.csv`. Geometric mean of volume × intensity × exposure × persistence; EB minimum-support guard; Spearman(impact, count)=0.56 (decoupled).
+- [✅] **4. Ranked zones + enforcement windows** — `scripts/rank_zones.py` → `outputs/top_zones.md/.csv`. Exposure-weighted windows (confound-safe).
 - [⬜] **5. Patrol optimizer + Pareto analysis.**
-- [⬜] **6. Face-validity check vs known Bengaluru chokepoints.**
+- [✅] **6. Face-validity check vs known Bengaluru chokepoints** — `scripts/face_validity.py`. 20/20 top zones face-valid; month-to-month rank ρ≈0.75, each-month-vs-full ρ≈0.86.
 - [⬜] **7. Prediction layer** (temporal holdout).
 - [⬜] **8. Packaged dashboard / demo artifact.**
 - [⬜] **9. Deliverables** — deck, README, source zip, screenshots, description final.
@@ -187,3 +187,4 @@ Each step produces something showable, so we're never far from a demo.
 ## 9. Change Log
 - *2026-06-18* — Doc created. Problem framed, data profiled (§2), solution designed (§3), submission fields mapped (§4). Next: Step 1 (foundation & cleaning).
 - *2026-06-18* — **Extensive EDA complete.** Cleaning + feature engineering done (Steps 0–1). Produced `ParkPulse_EDA_Report.md`, 12 figures, `hex_features_res9.csv`, `parkpulse_clean_records.parquet`. Key learnings folded into §6 (enforcement confound, NB/zero-inflation, Box-Cox, Gini concentration, volume×intensity, approved-only). Next: Step 2/3 — hotspot map + Congestion Impact Score on the existing feature table.
+- *2026-06-21* — **Step 2/3 built (Steps 2, 3, 4, 6).** Repo scaffolded into the canonical layout. `compute_impact_score.py` → `data/hex_scored.csv` (geometric-mean impact score, EB minimum-support guard, Spearman vs count = 0.56). `build_map.py` → `outputs/parkpulse_map.html` (folium, raw↔impact toggle). `rank_zones.py` → `outputs/top_zones.md/.csv` (top-30 zones, exposure-weighted enforcement windows that neutralise the 4–5am sweep confound). `face_validity.py` → `outputs/face_validity.md` (20/20 top zones on known cores; month-to-month rank stability ρ≈0.75). Next: Step 5 (patrol optimizer + Pareto), Step 7 (forecaster), Step 8 (dashboard).

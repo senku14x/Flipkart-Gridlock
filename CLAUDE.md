@@ -26,7 +26,8 @@ The success test: a traffic officer reads the output and says *"tomorrow send th
 - ✅ **Artifacts ready (use these, don't regenerate unless changing logic):**
   - `data/parkpulse_clean_records.parquet` — 298,445 cleaned records (IST, exploded violations, PCU + obstruction weights, H3 indices). Record grain.
   - `data/hex_features_res9.csv` — **2,534 hotspot cells × 28 features**. The modeling table. Schema in §5.
-- ▶ **NEXT: Step 2–3** — Congestion Impact Score + impact-weighted hotspot map + face-validity check. See `KICKOFF_STEP2.md`.
+- ✅ **Step 2–3 DONE** — Congestion Impact Score (`scripts/compute_impact_score.py` → `data/hex_scored.csv`), impact-weighted map (`scripts/build_map.py` → `outputs/parkpulse_map.html`), ranked zones + exposure-weighted windows (`scripts/rank_zones.py` → `outputs/top_zones.md`), face-validity + stability (`scripts/face_validity.py`). Spearman(impact, count)=0.56; 20/20 top zones face-valid; month-to-month ρ≈0.75.
+- ▶ **NEXT:** patrol optimizer + Pareto (Step 5), violation forecaster (genuine supervised ML, temporal holdout — Step 7), Streamlit dashboard (Step 8).
 - Roadmap, decisions, and the submission tracker: **`ParkPulse_Project_Master.md`** (the source of truth).
 
 ---
@@ -51,10 +52,12 @@ parkpulse/
 ├── scripts/                      # all Python (EDA pipeline lives here; add new modules here)
 │   ├── style.py  clean.py  p_temporal.py  p_spatial.py
 │   ├── p_categorical.py  p_dist.py  p_features.py
-│   ├── compute_impact_score.py   # Step 2 — TO BUILD
-│   ├── build_map.py              # Step 2 — TO BUILD
-│   └── forecast.py               # Step 5 — later
-├── outputs/                      # generated maps, scored tables, models, reports
+│   ├── compute_impact_score.py   # Step 2/3 — Congestion Impact Score (DONE)
+│   ├── build_map.py              # Step 2/3 — folium impact map, raw↔impact toggle (DONE)
+│   ├── rank_zones.py             # Step 2/3 — ranked zones + exposure-weighted windows (DONE)
+│   ├── face_validity.py          # Step 2/3 — face validity + month-to-month stability (DONE)
+│   └── forecast.py               # Step 7 — later
+├── outputs/                      # generated: parkpulse_map.html, top_zones.md/.csv, face_validity.md
 └── app/                          # Streamlit dashboard — later
 ```
 

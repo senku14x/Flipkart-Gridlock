@@ -15,8 +15,10 @@ relief per patrol-hour.
 
 - ✅ **EDA + cleaning + feature engineering complete** — see `ParkPulse_EDA_Report.md`.
 - ✅ **Artifacts committed** — cleaned record table + 2,534-cell modeling table (see *The data* below).
-- ▶ **Next — Step 2/3:** Congestion Impact Score + impact-weighted map + face-validity check
-  (spec in `KICKOFF_STEP2.md`).
+- ✅ **Step 2/3 complete** — Congestion Impact Score, impact-weighted map (raw↔impact toggle),
+  ranked enforcement zones with exposure-weighted windows, and a face-validity + stability check.
+- ▶ **Next:** patrol optimizer + Pareto (Step 5), the violation forecaster (genuine ML, temporal
+  holdout — Step 7), and the Streamlit dashboard (Step 8).
 
 Full roadmap, design, and submission tracker: **`ParkPulse_Project_Master.md`** (source of truth).
 
@@ -44,9 +46,15 @@ Full roadmap, design, and submission tracker: **`ParkPulse_Project_Master.md`** 
 │   ├── clean.py                  # raw CSV → cleaned records (cleaning + feature engineering)
 │   ├── p_temporal.py · p_spatial.py · p_categorical.py · p_dist.py   # EDA stats + figures 01–10
 │   ├── p_features.py             # builds the hex feature table + figures 11–12
-│   ├── compute_impact_score.py   # Step 2/3 — TO BUILD (Congestion Impact Score)
-│   └── build_map.py              # Step 2/3 — TO BUILD (folium impact map)
-└── outputs/                      # generated maps, scored tables, reports
+│   ├── compute_impact_score.py   # Step 2/3 — Congestion Impact Score → data/hex_scored.csv
+│   ├── build_map.py              # Step 2/3 — folium impact map (raw↔impact toggle)
+│   ├── rank_zones.py             # Step 2/3 — top enforcement zones + exposure-weighted windows
+│   └── face_validity.py          # Step 2/3 — face validity + month-to-month stability
+└── outputs/                      # generated artifacts
+    ├── parkpulse_map.html        #   interactive impact map
+    ├── top_zones.md / .csv       #   ranked enforcement zones (ops payload)
+    ├── zone_enrichment.csv       #   per-cell location + recommended window
+    └── face_validity.md          #   corroboration report
 ```
 
 ---
@@ -70,10 +78,13 @@ artifacts above are committed.
 
 ## Run
 
-**Next stage — Congestion Impact Score + map (Step 2/3, see `KICKOFF_STEP2.md`):**
+**Step 2/3 — Congestion Impact Score, map, zones, validation** (reproducible from the committed
+feature table; run from the repo root):
 ```bash
-python scripts/compute_impact_score.py   # data/hex_features_res9.csv → data/hex_scored.csv
-python scripts/build_map.py              # → outputs/parkpulse_map.html (impact ↔ raw-count toggle)
+python scripts/compute_impact_score.py   # data/hex_features_res9.csv → data/hex_scored.csv (+ prints)
+python scripts/build_map.py              # → outputs/parkpulse_map.html (raw ↔ impact toggle)
+python scripts/rank_zones.py             # → outputs/top_zones.md / .csv, zone_enrichment.csv
+python scripts/face_validity.py          # → outputs/face_validity.md (face validity + stability)
 ```
 
 **Regenerate the EDA artifacts (optional):** `scripts/` holds the pipeline that produced the committed
