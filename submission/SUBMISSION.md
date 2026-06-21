@@ -99,6 +99,7 @@ python scripts/patrol_optimizer.py       # patrol plan + Pareto     -> outputs/p
 python scripts/congestion_cost.py        # delay cost estimate      -> outputs/congestion_cost.md
 python scripts/detection_validity.py     # false-detection model    -> outputs/detection_metrics.*
 python scripts/emerging_hotspots.py      # rising hotspots          -> outputs/emerging_hotspots.md
+python scripts/enforcement_gap.py        # effort vs impact         -> outputs/enforcement_gap.md
 python web/prepare_data.py               # refresh the app's JSON   -> web/public/data/*
 
 # optional, needs network access (run on your own machine, then re-run prepare_data.py):
