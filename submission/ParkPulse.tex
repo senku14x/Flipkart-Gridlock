@@ -6,6 +6,8 @@
 \usepackage[margin=1in]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage{booktabs}
+\usepackage{graphicx}
+\graphicspath{{figures/}}
 \usepackage{xcolor}
 \usepackage{enumitem}
 \usepackage{titlesec}
@@ -64,6 +66,11 @@ We treat these as the opening, not a weakness: the impact score is built to plug
 \section{The approach}
 A pipeline that moves from reactive patrol to predictive, impact-prioritized enforcement, in three layers: \textbf{See} (an impact-weighted hotspot map and a ranked shortlist), \textbf{Understand} (what the congestion costs, where effort is misallocated, which spots are getting worse), and \textbf{Act} (a forecaster, a false-report triage model, and a patrol optimizer that outputs a costed deployment plan).
 
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.95\linewidth]{fig-pipeline}
+\caption{The pipeline: a noisy violation feed becomes a ranked, costed, where-and-when patrol plan.}
+\end{figure}
+
 % ---------------------------------------------------------------- how it works
 \section{How it works}
 
@@ -74,6 +81,16 @@ Timestamps converted UTC to IST (without this, rush-hour analysis is 5.5 hours w
 A geometric mean of four percentile-ranked axes, so a cell must be bad on several dimensions to rank high:
 \[ \text{score} = 100 \times (\text{volume}\times\text{intensity}\times\text{exposure}\times\text{persistence})^{1/4} \]
 \textbf{Volume} (with an empirical-Bayes shrink so single-event flukes do not top the list), \textbf{intensity} (how obstructive the typical violation is), \textbf{exposure} (how busy the road normally is, from an \emph{exogenous} hour-of-day utilization curve, not the recorded hour, which is how we inject ``traffic flow'' without a feed and dodge the confound), and \textbf{persistence} (how chronic). The score is built to \emph{disagree} with a raw count: their rank correlation is 0.56. Concentration is extreme (Gini 0.84): the top 1\% of cells carry 35\% of impact; 58 cells carry half.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.56\linewidth]{fig-map}
+\caption{Every H3 cell colored by Congestion Impact Score. The bright commercial core (Shivajinagar, Majestic, City Market, Malleshwaram) stands out against the cooler periphery.}
+\end{figure}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.62\linewidth]{fig-concentration}
+\caption{Impact is extremely concentrated, so ranking by impact beats blanket coverage.}
+\end{figure}
 
 \subsection{The enforcement gap}
 Recorded violations double as a map of effort. Weighting each by its impact unit (obstruction $\times$ PCU $\times$ utilization) exposes the misallocation:
@@ -92,6 +109,11 @@ Peak-exposure hours & 28.8\% & 50.1\% \\
 
 A third of logged effort lands when roads are empty. ParkPulse redirects it to the peak-hour chokepoints.
 
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.66\linewidth]{fig-gap}
+\caption{Where enforcement effort goes (grey) versus where congestion impact is. The night windows absorb effort while roads are empty; the peak hours are under-served.}
+\end{figure}
+
 \subsection{Ranked zones, cost, and emerging hotspots}
 \textbf{Ranked zones:} the top 30 cells, each with a dominant violation, the streets involved, and an exposure-weighted window. Validated by face validity (20 of the top 20 are known chokepoints) and month-to-month stability ($\rho \approx 0.75$--$0.86$).
 \textbf{Cost:} calibrating the physical delay-potential into vehicle-hours and rupees gives $\sim$574 vehicle-hours/day, $\sim$Rs 5.2 crore/year (base, with a band), the worst 20 cells carrying 31\% of it.
@@ -101,8 +123,18 @@ A third of logged effort lands when roads are empty. ParkPulse redirects it to t
 \textbf{Forecaster (real ground truth):} predicts next-day intensity per cell on a strict temporal holdout (train Nov--Feb, test Mar--Apr). A bake-off across the gradient-boosting family picks LightGBM (Tweedie); it beats the seasonal-naive baseline by 36\% on coverage@20 (0.257 to 0.348) and dominates on calibration (Tweedie deviance 3.45 vs 90), capturing 72\% of the oracle ceiling. We tested 29 extra features and tuning; none beat the base set. Honest read: the ceiling is the data, not the model.
 \textbf{False-detection triage:} about a third of reviewed reports are rejected; a separate classifier predicts which, with ROC-AUC 0.758 / PR-AUC 0.632. Flag the top 20\% most-suspect and you catch 43\% of all rejections at 64\% precision.
 
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.66\linewidth]{fig-forecast}
+\caption{Forecaster bake-off on the temporal holdout: the gradient-boosting models (orange) clear the naive baselines (grey).}
+\end{figure}
+
 \subsection{Patrol optimizer and ROI}
 A greedy max-coverage optimizer assigns N beats (cell plus H3 ring) to maximize impact covered. Because the worst cells cluster, 20 beats cover 53\% of citywide impact vs 47\% for a naive top-N pick, relieving roughly Rs 77k/day of delay.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=0.66\linewidth]{fig-coverage}
+\caption{Patrol coverage versus fleet size. Greedy max-coverage beats a naive top-N pick; 20 beats cover 53\% of impact.}
+\end{figure}
 
 % ---------------------------------------------------------------- results
 \section{Results at a glance}
