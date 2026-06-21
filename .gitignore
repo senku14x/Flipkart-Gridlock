@@ -17,6 +17,9 @@ env/
 # --- Training cruft ---
 catboost_info/
 
+# --- Submission packaging (regenerate with: git archive --format=zip -o submission/ParkPulse_source.zip HEAD) ---
+submission/ParkPulse_source.zip
+
 # --- Local / OS ---
 .env
 .DS_Store
