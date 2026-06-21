@@ -1,13 +1,17 @@
 # ParkPulse submission copy
 
 Everything here is written to paste straight into the Gridlock submission form.
-Same plain voice as the site. Swap in the two URLs marked `[…]` once you have them.
+Same plain voice as the site. Swap in the video URL marked `[…]` once you have it.
 
 ---
 
 ## Title
 
 **ParkPulse**
+
+## Team
+
+**Spectres:** Kavya Mahajan, Aarav Harshvardhan, Souhardyo Dasgupta, Vishesh Gupta
 
 ## One-liner / tagline
 
@@ -69,7 +73,7 @@ with no backend and no API keys.
 
 ## Links
 
-- **Demo:** [your Vercel URL]
+- **Demo:** https://flipkart-gridlock-gamma.vercel.app/
 - **Repository:** https://github.com/senku14x/Flipkart-Gridlock
 - **Video:** [your video URL]
 

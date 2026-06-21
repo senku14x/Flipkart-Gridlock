@@ -2,6 +2,8 @@
 
 **Gridlock Hackathon 2.0 (Flipkart), Round 2.** Theme: *Poor Visibility on Parking-Induced Congestion*.
 
+**Team Spectres:** Kavya Mahajan, Aarav Harshvardhan, Souhardyo Dasgupta, Vishesh Gupta.
+
 **One line:** ParkPulse reads 298,445 real Bengaluru parking-violation records and scores every hotspot by how much it slows traffic, then tells enforcement where, when, and at what cost to act, and how many patrols it takes to fix it.
 
 ---
@@ -132,6 +134,6 @@ Today, ParkPulse gives enforcement the prioritization they are missing: a ranked
 
 ## 9. Links and how to run
 
-- **Demo:** [Vercel URL]
+- **Demo:** https://flipkart-gridlock-gamma.vercel.app/
 - **Repository:** https://github.com/senku14x/Flipkart-Gridlock
 - **Run:** see `submission/SUBMISSION.md` (web app + the Python pipeline, reproducible from the committed data).

@@ -5,7 +5,7 @@ lines aloud at a calm pace (~150 words/min); follow the **Screen** directions as
 record. Everything points at the live site, so nothing is faked.
 
 ## Before you record
-- Open the deployed site (the Vercel URL) in a clean browser window. Hide the bookmarks
+- Open the deployed site (https://flipkart-gridlock-gamma.vercel.app/) in a clean browser window. Hide the bookmarks
   bar and any extensions. Record at 1080p or higher.
 - Do a dry run once so the scrolls and hovers feel smooth. Scroll slowly; let each
   section settle for a beat before talking over it.
