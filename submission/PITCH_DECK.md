@@ -1,4 +1,4 @@
-# ParkPulse — pitch deck outline
+# ParkPulse pitch deck outline
 
 12 slides, about 5 minutes. Each slide has the on-screen content, a short speaker
 note, and a visual cue. Keep slides sparse and let the screenshots carry the weight.
@@ -6,7 +6,7 @@ Plain voice, no jargon dumps.
 
 ---
 
-### 1 — Title
+### 1. Title
 
 **ParkPulse**
 Find the parking that actually chokes traffic, and patrol it first.
@@ -17,7 +17,7 @@ Find the parking that actually chokes traffic, and patrol it first.
 
 ---
 
-### 2 — The problem
+### 2. The problem
 
 - Bengaluru logs thousands of parking violations every day.
 - But the feed shows where **tickets get written**, not where parking **blocks traffic**.
@@ -31,7 +31,7 @@ Find the parking that actually chokes traffic, and patrol it first.
 
 ---
 
-### 3 — What we had to work with
+### 3. What we had to work with
 
 - 298,445 real violation records, five months, the whole city.
 - Rich detail: location, vehicle, violation type, timestamps.
@@ -45,7 +45,7 @@ Find the parking that actually chokes traffic, and patrol it first.
 
 ---
 
-### 4 — The insight
+### 4. The insight
 
 - A raw violation count is mostly "where patrols happen to be."
 - A daily 4–5am sweep alone is **15% of all records.**
@@ -53,7 +53,7 @@ Find the parking that actually chokes traffic, and patrol it first.
   **often** the same spot reoffends.
 
 > Speaker: Two corrections drive everything. First, we don't trust the violation hour,
-> we weight by when roads are genuinely busy. Second, we separate volume from
+> we weight by when roads are actually busy. Second, we separate volume from
 > intensity, because a thousand tickets on a side street is not the same as a hundred
 > blocking a carriageway at rush hour.
 
@@ -61,7 +61,7 @@ Find the parking that actually chokes traffic, and patrol it first.
 
 ---
 
-### 5 — The Congestion Impact Score
+### 5. The Congestion Impact Score
 
 - One score, 0 to 100, per cell (~150 m).
 - Built from four parts: **volume × intensity × exposure × persistence.**
@@ -76,20 +76,20 @@ Find the parking that actually chokes traffic, and patrol it first.
 
 ---
 
-### 6 — See it re-rank
+### 6. See it re-rank
 
 - Toggle the map between **raw density** and **impact.**
 - Pre-dawn sweep clusters fade. Rush-hour chokepoints take over.
 
-> Speaker: This is the moment the idea clicks. Same city, two colorings. Watch the
-> bright spots move when we switch to impact. That movement is exactly the visibility
+> Speaker: This is where the idea lands. Same city, two colorings. Watch the
+> bright spots move when we switch to impact. That movement is the visibility
 > the brief asks for.
 
 *Visual:* the two map states, raw vs impact, side by side (or a short clip of the toggle).
 
 ---
 
-### 7 — From map to shortlist
+### 7. From map to shortlist
 
 - The top 30 cells, ranked.
 - Each with its main violation, the **streets** involved, and a **two-hour window.**
@@ -102,13 +102,13 @@ Find the parking that actually chokes traffic, and patrol it first.
 
 ---
 
-### 8 — The one real ML model
+### 8. The forecasting model
 
 - Forecasts next-day violations per cell. Trained on past months, tested on unseen ones.
 - Beats the standard seasonal baseline by **36%** on next-day hit rate.
 - We tried 29 more features and heavier models. **None beat the simple base set.**
 
-> Speaker: This is the genuinely supervised part, with real answers to check against.
+> Speaker: This is the supervised part, with real answers to check against.
 > It wins clearly. And we're honest about the limit: when extra features and tuning
 > stop helping, that tells you the ceiling is the data, not the algorithm. Saying that
 > out loud is more useful than a fake accuracy number.
@@ -117,7 +117,7 @@ Find the parking that actually chokes traffic, and patrol it first.
 
 ---
 
-### 9 — Turn it into a patrol plan
+### 9. Turn it into a patrol plan
 
 - A greedy optimizer assigns N patrol beats for maximum impact covered.
 - **20 patrols cover 53%** of citywide impact, against 47% for a naive top-20.
@@ -131,7 +131,7 @@ Find the parking that actually chokes traffic, and patrol it first.
 
 ---
 
-### 10 — Honest about the gap
+### 10. Honest about the gap
 
 - No traffic speeds means the score is an **estimate, not a measurement.** We say so.
 - We validate by **face validity** (20 of the top 20 are known bad spots) and
@@ -139,7 +139,7 @@ Find the parking that actually chokes traffic, and patrol it first.
 - **Fusion-ready:** the day a speed feed exists, it becomes the training target and the
   score becomes a learned model.
 
-> Speaker: Judges reward honesty, and so should anyone deploying this. We never claim
+> Speaker: Being upfront here builds trust, with judges and with anyone who would deploy this. We never claim
 > to have measured congestion. We show the ranking is structural, not noise, and we
 > built the system so a real flow feed plugs straight in. The data gap is a roadmap,
 > not a wall.
@@ -148,7 +148,7 @@ Find the parking that actually chokes traffic, and patrol it first.
 
 ---
 
-### 11 — The product
+### 11. The product
 
 - A fast, **static** web app: Next.js + deck.gl + Recharts.
 - All compute is precomputed, so it runs on a CDN with **no backend, no API keys.**
@@ -162,7 +162,7 @@ Find the parking that actually chokes traffic, and patrol it first.
 
 ---
 
-### 12 — Impact and what's next
+### 12. Impact and what's next
 
 - **Today:** turns a noisy violation feed into a ranked where-and-when for patrols.
 - **Next:** plug in live speeds, an events calendar, and patrol rosters.

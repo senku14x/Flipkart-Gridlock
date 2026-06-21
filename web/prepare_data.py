@@ -1,9 +1,9 @@
 """
-web/prepare_data.py — export committed ParkPulse artifacts to compact JSON for the
+web/prepare_data.py: export committed ParkPulse artifacts to compact JSON for the
 Next.js app. Run from the repo root:  python web/prepare_data.py
 
-No heavy recompute — reads data/hex_scored.csv + outputs/*, reuses
-scripts/patrol_optimizer.py so the website matches the repo exactly.
+Reads data/hex_scored.csv and outputs/*, and reuses
+scripts/patrol_optimizer.py so the website matches the repo.
 Writes web/public/data/*.json.
 """
 from __future__ import annotations

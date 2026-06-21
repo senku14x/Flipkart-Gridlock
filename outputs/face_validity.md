@@ -1,37 +1,37 @@
-# ParkPulse — Face-Validity & Stability Check
+# ParkPulse: Face-Validity & Stability Check
 
 The Congestion Impact Score has **no ground truth** (no traffic-flow data), so it is *corroborated*, never validated for accuracy (CLAUDE.md §7).
 
-## 1. Face validity — do the top zones match known Bengaluru chokepoints?
+## 1. Face validity: do the top zones match known Bengaluru chokepoints?
 
 **20 of 20** top zones fall on recognised commercial / market / arterial parking-problem cores:
 
 | # | Station | Location | Impact | Known core? |
 |--:|---|---|--:|---|
-| 1 | Shivajinagar | Dispensary Road, Tasker Town, Shivaji Nagar | 96.9 | ✅ Shivajinagar |
-| 2 | Shivajinagar | Dickenson Road, Sri Nagamma Devi Circle, Sivan | 96.7 | ✅ Shivajinagar |
-| 3 | Rajajinagar | 1st Main Road, Block 1R, Rajaji Nagar | 96.4 | ✅ Rajajinagar |
-| 4 | HAL Old Airport | Kadubeesanahalli Underpass, Kadubisanahalli Ju | 96.3 | ✅ ORR (Kadubeesanahalli) |
-| 5 | Jayanagara | 11th Main Road, Jayanagar | 95.8 | ✅ Jayanagar |
-| 6 | Sheshadripuram | Anna Basavanna Road, RV Layout, Seshadripuram | 95.0 | ✅ Sheshadripuram |
-| 7 | Halasuru Gate | Pailwan M Krishnappa Road, Shoukath Mohalla, N | 94.9 | ✅ Ulsoor |
-| 8 | Malleshwaram | 80 Feet Ring Road, Navarang Circle, Rajaji Nag | 94.5 | ✅ Malleshwaram |
-| 9 | Shivajinagar | Infantry Road, Prestige Central, Shivaji Nagar | 94.2 | ✅ Shivajinagar |
-| 10 | Halasuru Gate | Sri Narasimha Raj Wadiyar Road, Potters Colony | 94.1 | ✅ Ulsoor |
-| 11 | Shivajinagar | Main Guard Cross Road, Tasker Town, Shivaji Na | 94.1 | ✅ Shivajinagar |
-| 12 | Upparpet | 3rd Cross Road, Kempegowda Extension, Chickpet | 94.0 | ✅ Majestic |
-| 13 | Shivajinagar | Meenakshi Koil Street, Shivaji Nagar | 93.8 | ✅ Shivajinagar |
-| 14 | Shivajinagar | Infantry Road, Prestige Central, Shivaji Nagar | 93.7 | ✅ Shivajinagar |
-| 15 | Vijayanagara | Padmabhushan Dr MC Modi Road, Phase 1, Manjuna | 93.2 | ✅ Vijayanagar |
-| 16 | Jeevanbheemanagar | Domlur Inner Ring Road, Dr BR Ambedkar Circle, | 93.1 | ✅ Jeevanbheemanagar |
-| 17 | Adugodi | 20th Main Road, UCO Bank Junction, Koramangala | 93.0 | ✅ Koramangala |
-| 18 | City Market | AS Char Main Road, Balepete, Chickpete | 92.8 | ✅ City/KR Market |
-| 19 | Shivajinagar | Meenakshi Koil Street, Shivaji Nagar | 92.5 | ✅ Shivajinagar |
-| 20 | Upparpet | 5th Main Road, Kempe Gowda Circle, Gandhi Naga | 92.5 | ✅ Gandhinagar |
+| 1 | Shivajinagar | Dispensary Road, Tasker Town, Shivaji Nagar | 96.9 | yes, Shivajinagar |
+| 2 | Shivajinagar | Dickenson Road, Sri Nagamma Devi Circle, Sivan | 96.7 | yes, Shivajinagar |
+| 3 | Rajajinagar | 1st Main Road, Block 1R, Rajaji Nagar | 96.4 | yes, Rajajinagar |
+| 4 | HAL Old Airport | Kadubeesanahalli Underpass, Kadubisanahalli Ju | 96.3 | yes, ORR (Kadubeesanahalli) |
+| 5 | Jayanagara | 11th Main Road, Jayanagar | 95.8 | yes, Jayanagar |
+| 6 | Sheshadripuram | Anna Basavanna Road, RV Layout, Seshadripuram | 95.0 | yes, Sheshadripuram |
+| 7 | Halasuru Gate | Pailwan M Krishnappa Road, Shoukath Mohalla, N | 94.9 | yes, Ulsoor |
+| 8 | Malleshwaram | 80 Feet Ring Road, Navarang Circle, Rajaji Nag | 94.5 | yes, Malleshwaram |
+| 9 | Shivajinagar | Infantry Road, Prestige Central, Shivaji Nagar | 94.2 | yes, Shivajinagar |
+| 10 | Halasuru Gate | Sri Narasimha Raj Wadiyar Road, Potters Colony | 94.1 | yes, Ulsoor |
+| 11 | Shivajinagar | Main Guard Cross Road, Tasker Town, Shivaji Na | 94.1 | yes, Shivajinagar |
+| 12 | Upparpet | 3rd Cross Road, Kempegowda Extension, Chickpet | 94.0 | yes, Majestic |
+| 13 | Shivajinagar | Meenakshi Koil Street, Shivaji Nagar | 93.8 | yes, Shivajinagar |
+| 14 | Shivajinagar | Infantry Road, Prestige Central, Shivaji Nagar | 93.7 | yes, Shivajinagar |
+| 15 | Vijayanagara | Padmabhushan Dr MC Modi Road, Phase 1, Manjuna | 93.2 | yes, Vijayanagar |
+| 16 | Jeevanbheemanagar | Domlur Inner Ring Road, Dr BR Ambedkar Circle, | 93.1 | yes, Jeevanbheemanagar |
+| 17 | Adugodi | 20th Main Road, UCO Bank Junction, Koramangala | 93.0 | yes, Koramangala |
+| 18 | City Market | AS Char Main Road, Balepete, Chickpete | 92.8 | yes, City/KR Market |
+| 19 | Shivajinagar | Meenakshi Koil Street, Shivaji Nagar | 92.5 | yes, Shivajinagar |
+| 20 | Upparpet | 5th Main Road, Kempe Gowda Circle, Gandhi Naga | 92.5 | yes, Gandhinagar |
 
-These are exactly the dense market/commercial cores the brief calls out — strong qualitative evidence the score tracks real congestion pressure, not artefacts.
+These are the dense market/commercial cores the brief calls out, which is qualitative evidence the score tracks real congestion pressure, not artefacts.
 
-## 2. Stability — does the ranking reproduce month to month?
+## 2. Stability: does the ranking reproduce month to month?
 
 Each calendar month is re-scored **independently** with the same pipeline (cells with ≥10 violations that month).
 
@@ -52,7 +52,7 @@ Each calendar month is re-scored **independently** with the same pipeline (cells
 | 2024-02 | 583 | 0.861 |
 | 2024-03 | 615 | 0.871 |
 
-High month-to-month rank correlation + large top-50 overlap means the hotspot ranking is **structural, not noise** — the same streets stay bad. That stability is the robustness evidence we *can* offer in the absence of a flow-feed label.
+High month-to-month rank correlation + large top-50 overlap means the hotspot ranking is **structural, not noise**: the same streets stay bad. That stability is the evidence we can offer in the absence of a flow-feed label.
 
 ---
-*Generated by `scripts/face_validity.py`. Impact remains a transparent engineered index designed to become supervised once a speed feed provides labels.*
+*Generated by `scripts/face_validity.py`. Impact is an engineered index designed to become supervised once a speed feed provides labels.*

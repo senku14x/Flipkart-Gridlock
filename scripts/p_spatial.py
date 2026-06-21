@@ -20,7 +20,7 @@ print("\n# records / unique device (officer proxy): median=%.0f" % df.groupby('h
 # ===== Fig 4: geographic density (hexbin) =====
 fig,ax=plt.subplots(figsize=(8.2,8))
 hb=ax.hexbin(df.longitude, df.latitude, gridsize=130, cmap='inferno', mincnt=1, bins='log')
-ax.set_title('Where violations happen — Bengaluru density\n(log color scale)')
+ax.set_title('Where violations happen: Bengaluru density\n(log color scale)')
 ax.set_xlabel('longitude'); ax.set_ylabel('latitude'); ax.set_aspect('equal','box')
 plt.colorbar(hb,ax=ax,label='log(violations)',shrink=.7); plt.tight_layout()
 plt.savefig('plots/04_spatial_density.png'); plt.close()

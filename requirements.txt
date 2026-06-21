@@ -1,4 +1,4 @@
-# ParkPulse — Python dependencies (Python 3.10+)
+# ParkPulse Python dependencies (Python 3.10+)
 
 # --- Core data ---
 pandas
@@ -25,4 +25,4 @@ joblib             # persist the trained model
 
 # Added when their steps are built:
 #   statsmodels         # NB/ZINB statistical alternative
-#   streamlit           # dashboard — Step 8
+#   streamlit           # not used; the dashboard is the Next.js app in web/

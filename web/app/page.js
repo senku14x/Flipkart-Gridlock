@@ -48,7 +48,7 @@ export default function Home() {
           <div className="hidden items-center gap-6 text-sm text-slate-400 md:flex">
             {NAV.map(([id, label]) => <a key={id} href={`#${id}`} className="hover:text-white">{label}</a>)}
           </div>
-          <a href="https://github.com/senku14x/Flipkart-Gridlock" className="rounded-lg border border-white/10 px-3 py-1.5 text-sm text-slate-300 hover:bg-white/5">GitHub ↗</a>
+          <a href="https://github.com/senku14x/Flipkart-Gridlock" className="rounded-lg border border-white/10 px-3 py-1.5 text-sm text-slate-300 hover:bg-white/5">GitHub</a>
         </nav>
       </header>
 
@@ -72,10 +72,10 @@ export default function Home() {
             </div>
           </div>
           <div className="relative z-10 mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <Stat value={k ? `${(k.violations / 1000).toFixed(0)}K` : "—"} label="violation records" />
-            <Stat value={k ? k.hotspots.toLocaleString() : "—"} label="H3 hotspot cells" />
-            <Stat value={k ? `${k.top1_impact}%` : "—"} label="of impact in top 1% of cells" accent="text-gold" />
-            <Stat value={k ? `${k.beats20_greedy}%` : "—"} label="impact covered by 20 patrols" accent="text-acc2" />
+            <Stat value={k ? `${(k.violations / 1000).toFixed(0)}K` : "…"} label="violation records" />
+            <Stat value={k ? k.hotspots.toLocaleString() : "…"} label="H3 hotspot cells" />
+            <Stat value={k ? `${k.top1_impact}%` : "…"} label="of impact in top 1% of cells" accent="text-gold" />
+            <Stat value={k ? `${k.beats20_greedy}%` : "…"} label="impact covered by 20 patrols" accent="text-acc2" />
           </div>
         </section>
 
@@ -107,7 +107,7 @@ export default function Home() {
         <footer className="mt-24 border-t border-white/5 pt-8 text-sm text-slate-500">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <span>ParkPulse, built for Gridlock Hackathon 2.0 (Round 2) on 298,445 real Bengaluru parking-violation records.</span>
-            <a href="https://github.com/senku14x/Flipkart-Gridlock" className="hover:text-slate-300">Repository ↗</a>
+            <a href="https://github.com/senku14x/Flipkart-Gridlock" className="hover:text-slate-300">Repository</a>
           </div>
         </footer>
       </main>

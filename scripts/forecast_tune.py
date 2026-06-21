@@ -1,9 +1,9 @@
 """
-forecast_tune.py — ParkPulse Step 7 add-on: can tuning / ensembling beat base?
+forecast_tune.py - ParkPulse Step 7 add-on: can tuning / ensembling beat base?
 ================================================================================
-Honest follow-up to the feature-engineering ablation. The default LightGBM on the
+Follow-up to the feature-engineering ablation. The default LightGBM on the
 base feature set scores coverage@20 = 0.348. Here we try two more levers, with a
-clean methodology (search/select on the VALIDATION tail; the Mar–Apr test set is
+clean methodology (search/select on the validation tail; the Mar-Apr test set is
 touched once, for final reporting only):
 
   1. Random hyperparameter search for LightGBM (selected by val coverage@20 and,
@@ -110,8 +110,8 @@ def main() -> None:
         "LightGBM (default)": ref,
         "LightGBM (tuned by val cov@20)": tuneA,
         "LightGBM (tuned by val deviance)": tuneB,
-        "Ensemble — mean of 4 GBMs": ensmean,
-        "Ensemble — per-day rank-mean": ensrank,
+        "Ensemble: mean of 4 GBMs": ensmean,
+        "Ensemble: per-day rank-mean": ensrank,
     }
     res = pd.DataFrame(rows).T[["Spearman", K, "cov@50", "prec@20", "RMSE", "TweedieDev"]]
     print("\n=== TEST RESULTS ===")
@@ -123,13 +123,13 @@ def main() -> None:
     verdict = (f"Best is **{best_row}** at cov@20={res.loc[best_row, K]:.3f} "
                f"({delta:+.3f} vs default {base_cov:.3f}).")
     if delta < 0.003:
-        verdict += " That is within noise — **tuning/ensembling do not materially help**; the base-rate ceiling holds. Keeping the default model."
+        verdict += " That is within noise. **Tuning/ensembling do not materially help**; the base-rate ceiling holds. Keeping the default model."
     else:
-        verdict += " A real gain — worth adopting."
+        verdict += " A real gain, worth adopting."
 
-    L = ["# ParkPulse — Forecaster: tuning & ensembling (honest follow-up)", "",
+    L = ["# ParkPulse: Forecaster tuning & ensembling", "",
          "Methodology: hyperparameters searched and models selected on the **validation tail** "
-         "(Feb); the Mar–Apr **test set is reported once**. Metric = coverage@20.", "",
+         "(Feb); the Mar-Apr **test set is reported once**. Metric = coverage@20.", "",
          "| Variant | Spearman | cov@20 | cov@50 | prec@20 | RMSE | TweedieDev |",
          "|---|--:|--:|--:|--:|--:|--:|"]
     for name, r in res.iterrows():
@@ -137,9 +137,9 @@ def main() -> None:
                  f"{r['prec@20']:.3f} | {r.RMSE:.2f} | {r.TweedieDev:.3f} |")
     L += ["", verdict, "",
           "_Note: the per-day rank-mean edges cov@20 but outputs **ranks, not counts** (hence its "
-          "large RMSE/deviance) — unusable for \"how many\". The mean-ensemble matches it on ranking "
-          "with the best calibration (deviance 3.44), but the edge over one LightGBM is within noise "
-          "and not worth shipping four models._", "",
+          "large RMSE/deviance), so it cannot answer \"how many\". The mean-ensemble matches it on "
+          "ranking with better calibration (deviance 3.44), but the edge over a single LightGBM is "
+          "within noise and not worth shipping four models._", "",
           f"Best hyperparameters (by val cov@20): `{best_cov['cfg']}`.", "",
           "_Consistent with the feature ablation: on this base-rate-dominated, patrol-confounded "
           "series the limit is the data, not the model. The shipped model (`forecast_model.pkl`) "

@@ -78,7 +78,7 @@ big=feat[feat.n_violations>=20]
 fig,ax=plt.subplots(figsize=(9.5,6.5))
 sc=ax.scatter(big.n_violations, big.mean_obstruct_w, s=12+big.heavy_share*600,
     c=big.junction_share, cmap='viridis', alpha=.6, edgecolor='none')
-ax.set_xscale('log'); ax.set_xlabel('volume — violations in cell (log)'); ax.set_ylabel('intensity — mean obstruction severity')
+ax.set_xscale('log'); ax.set_xlabel('volume: violations in cell (log)'); ax.set_ylabel('intensity: mean obstruction severity')
 ax.axhline(big.mean_obstruct_w.median(), ls='--', color='gray', lw=1)
 ax.axvline(big.n_violations.median(), ls='--', color='gray', lw=1)
 ax.set_title('Volume ≠ Intensity: hotspots split into 4 quadrants\n(size = heavy-vehicle share · color = junction share)')

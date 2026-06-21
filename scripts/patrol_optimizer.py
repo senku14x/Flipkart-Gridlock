@@ -1,24 +1,24 @@
 """
-patrol_optimizer.py — ParkPulse Step 5: patrol optimizer + Pareto
+patrol_optimizer.py - ParkPulse Step 5: patrol optimizer + Pareto
 ================================================================================
 Turns the Congestion Impact Score into a deployment plan: given N patrol units,
-*where* (and *when*) to send them to relieve the most parking-induced congestion
+where (and when) to send them to relieve the most parking-induced congestion
 per patrol-hour.
 
 Two parts:
-  1. PARETO — parking-congestion impact is extremely concentrated, so a few
-     locations carry most of it. We quantify it on `impact_sum` (the EXPOSURE-
-     WEIGHTED additive impact mass: Σ obstruction×PCU×exposure — so the 4–5am
-     enforcement-sweep mass barely counts; CLAUDE.md §6.6).
-  2. OPTIMIZER — greedy max-coverage. Each patrol works a ~beat (its cell + the
-     immediate H3 ring), and we pick beats to maximise the UNION of impact
-     covered. Because the worst cells clump together, this beats a naive "top-N
-     cells" pick, which would stack units in one cluster. Each beat carries an
-     exposure-weighted enforcement WINDOW (from rank_zones), so the plan is
+  1. PARETO: parking-congestion impact is extremely concentrated, so a few
+     locations carry most of it. Quantified on `impact_sum` (the exposure-
+     weighted additive impact mass: Σ obstruction×PCU×exposure), so the 4-5am
+     enforcement-sweep mass barely counts (CLAUDE.md §6.6).
+  2. OPTIMIZER: greedy max-coverage. Each patrol works a beat (its cell + the
+     immediate H3 ring), and we pick beats to maximise the union of impact
+     covered. Because the worst cells clump together, this beats a naive top-N
+     pick, which would stack units in one cluster. Each beat carries an
+     exposure-weighted enforcement window (from rank_zones), so the plan is
      where + when.
 
-Optional: a forecaster-driven NEXT-DAY plan (predicted violations × impact per
-violation) — the project's "reactive → predictive" thesis in one table.
+Optional: a forecaster-driven next-day plan (predicted violations × impact per
+violation), illustrating the reactive-to-predictive shift in one table.
 
 Inputs : data/hex_scored.csv, outputs/zone_enrichment.csv
          (optional) outputs/forecast_model.pkl + scripts/forecast.py
@@ -161,7 +161,7 @@ def make_figure(par: dict, ns, greedy_at, naive_at, path: str):
     ax2.set_ylabel("% of citywide impact covered")
     ax2.set_title("Patrol coverage vs. fleet size\n(each beat = cell + immediate ring)")
     ax2.legend(fontsize=8, loc="lower right")
-    fig.suptitle("ParkPulse — patrol optimizer & Pareto", fontweight="bold")
+    fig.suptitle("ParkPulse: patrol optimizer & Pareto", fontweight="bold")
     fig.tight_layout()
     fig.savefig(path, dpi=130)
     plt.close(fig)
@@ -176,11 +176,11 @@ def write_markdown(df, par, plan, ns, greedy_at, naive_at, fc, path):
     naive20 = naive_at[ns.index(PLAN_UNITS)] if PLAN_UNITS in ns else naive_at[-1]
     info = df.set_index("h3_9")
     L = [
-        "# ParkPulse — Patrol Optimizer & Pareto", "",
+        "# ParkPulse: Patrol Optimizer & Pareto", "",
         "From impact score to deployment: where (and when) to send a limited patrol fleet for the "
-        "most congestion relief per patrol-hour. Coverage is measured on **`impact_sum`** — the "
-        "exposure-weighted additive impact mass, so the 4–5am enforcement sweep barely counts.", "",
-        "## 1. The Pareto — a few streets carry most of the problem", "",
+        "most congestion relief per patrol-hour. Coverage is measured on **`impact_sum`** (the "
+        "exposure-weighted additive impact mass), so the 4-5am enforcement sweep barely counts.", "",
+        "## 1. The Pareto: a few streets carry most of the problem", "",
         f"Across **{par['n']} hotspot cells**:", "",
         "| Patrol target | Cells | Share of cells | Impact covered |",
         "|---|--:|--:|--:|",
@@ -191,19 +191,19 @@ def write_markdown(df, par, plan, ns, greedy_at, naive_at, fc, path):
         "",
         f"It takes only **{par['need'][0.5]} cells ({100*par['need'][0.5]/par['n']:.1f}%)** to cover "
         f"half the city's parking-congestion impact, and {par['need'][0.8]} to cover 80%. *This is "
-        f"the prioritisation thesis: don't patrol everywhere — patrol these.*", "",
-        "## 2. The optimizer — greedy beats naive", "",
+        f"the prioritisation thesis: don't patrol everywhere, patrol these.*", "",
+        "## 2. The optimizer: greedy beats naive", "",
         "Each patrol works a **beat** (its cell + the immediate ring). Because the worst cells "
         "cluster in the same commercial cores, **greedy max-coverage spreads beats across distinct "
         "hotspots** and covers more than naively taking the top-N cells (which stack up in one "
         "cluster):", "",
         f"- **{PLAN_UNITS} greedy beats cover {100*g20:.0f}%** of citywide impact "
-        f"vs {100*naive20:.0f}% for naive top-{PLAN_UNITS} — "
-        f"**+{round(100*g20)-round(100*naive20)} pts** for the same fleet.",
+        f"vs {100*naive20:.0f}% for naive top-{PLAN_UNITS} "
+        f"(**+{round(100*g20)-round(100*naive20)} pts** for the same fleet).",
         f"- Diminishing returns: 10 beats → {100*greedy_at[ns.index(10)]:.0f}%, "
         f"30 → {100*greedy_at[ns.index(30)]:.0f}%, 50 → {100*greedy_at[ns.index(50)]:.0f}%.",
         "",
-        f"### Recommended deployment — {PLAN_UNITS} patrol beats", "",
+        f"### Recommended deployment: {PLAN_UNITS} patrol beats", "",
         "| # | Station | Location | Window (IST) | Beat impact | Cumulative |",
         "|--:|---|---|---|--:|--:|",
     ]
@@ -222,12 +222,11 @@ def write_markdown(df, par, plan, ns, greedy_at, naive_at, fc, path):
         dyn_top = set(fplan.h3_9)
         overlap = len(static_top & dyn_top)
         L += [
-            f"## 3. Predictive deployment — plan for {date.date()} (forecaster-driven)", "",
+            f"## 3. Predictive deployment: plan for {date.date()} (forecaster-driven)", "",
             "Feeding the forecaster's predicted next-day violations (× impact per violation) into the "
-            "same optimizer yields a **dynamic** plan that re-targets where impact will be *tomorrow*, "
-            f"not just chronically. It shares **{overlap}/{PLAN_UNITS}** beats with the static plan — "
-            "the stable cores — and reallocates the rest to predicted surges. This is the "
-            "reactive→predictive thesis in one table.", "",
+            "same optimizer yields a **dynamic** plan that re-targets where impact will be tomorrow, "
+            f"not just chronically. It shares **{overlap}/{PLAN_UNITS}** beats with the static plan "
+            "(the stable cores) and reallocates the rest to predicted surges.", "",
             "| # | Station | Location | Window (IST) | Pred. next-day impact |",
             "|--:|---|---|---|--:|",
         ]
@@ -241,7 +240,7 @@ def write_markdown(df, par, plan, ns, greedy_at, naive_at, fc, path):
         L.append("")
     L += [
         "---",
-        "*`scripts/patrol_optimizer.py`. Impact is a transparent engineered index — no traffic-flow "
+        "*`scripts/patrol_optimizer.py`. Impact is an engineered index with no traffic-flow "
         "ground truth (CLAUDE.md §7); the beat radius is a modelling assumption. Windows are "
         "exposure-weighted, not raw modal hour.*", "",
     ]
