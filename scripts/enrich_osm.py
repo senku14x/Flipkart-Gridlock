@@ -37,6 +37,7 @@ ROAD_W = {"motorway": 1.0, "trunk": 0.9, "primary": 0.8, "secondary": 0.6,
 POI_TAGS = {"amenity": ["marketplace", "school", "hospital", "college"],
             "shop": ["mall", "supermarket"], "public_transport": ["station", "stop_position"],
             "railway": ["station"]}
+BETW_K = 500          # sampled sources for approximate (k-sampled) betweenness centrality
 
 
 def _crit(highway):
@@ -69,7 +70,17 @@ def main():
     cells["nearest_highway"] = [h[0] if isinstance(h, list) else h for h in hwy]
     cells["road_criticality"] = [round(_crit(h), 3) for h in hwy]
 
-    # 2) nearby congestion-generators (assign each POI to its H3 res-9 cell, count)
+    # 2) node betweenness centrality: how critical each cell's nearest road is to flow
+    if "--no-betweenness" not in sys.argv:
+        import networkx as nx
+        print(f"computing k-sampled betweenness centrality (k={BETW_K}, a couple of minutes)...")
+        bc = nx.betweenness_centrality(G, k=min(BETW_K, len(G.nodes)), weight="length", seed=1)
+        cnodes = ox.distance.nearest_nodes(G, X=cells.lon.values, Y=cells.lat.values)
+        raw = [bc.get(nd, 0.0) for nd in cnodes]
+        mx = max(raw) or 1.0
+        cells["betweenness"] = [round(r / mx, 4) for r in raw]
+
+    # 3) nearby congestion-generators (assign each POI to its H3 res-9 cell, count)
     print("downloading POIs from OSM...")
     feats = ox.features_from_bbox(bbox=(west, south, east, north), tags=POI_TAGS)
     feats = feats[feats.geometry.notna()].copy()
@@ -106,8 +117,9 @@ def main():
 
     near = (cells["n_poi"] > 0).mean() if "n_poi" in cells else 0
     print(f"wrote {OUT}: {len(cells)} cells; {near*100:.0f}% sit next to a market/transit/school/hospital")
-    print("note: edge betweenness centrality (true flow-criticality) is a further upgrade;")
-    print("      add it with networkx.betweenness_centrality (k-sampled) on G if you want it.")
+    if "betweenness" in cells.columns:
+        print("included node betweenness centrality (normalized 0-1).")
+    print("next: python scripts/osm_validate.py   # cross-check the impact score against this OSM data")
 
 
 if __name__ == "__main__":

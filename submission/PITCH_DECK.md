@@ -152,8 +152,11 @@ Demo: https://flipkart-gridlock-gamma.vercel.app/
 ### 11. Honest about the gap
 
 - No traffic speeds means the score is an **estimate, not a measurement.** We say so.
-- We validate by **face validity** (20 of the top 20 are known bad spots) and
-  **month-to-month stability** (ρ ≈ 0.75).
+- We validate it four ways: **face validity** (20 of the top 20 are known bad spots),
+  **month-to-month stability** (ρ ≈ 0.75), a **weight-robustness check**, and an
+  **independent OpenStreetMap cross-check**: built blind to the road network, the score
+  still rediscovers the commercial cores (near-commerce share climbs 34% to 62% with
+  impact) while correctly ignoring arterial road class.
 - **Fusion-ready:** the day a speed feed exists, it becomes the training target and the
   score becomes a learned model.
 

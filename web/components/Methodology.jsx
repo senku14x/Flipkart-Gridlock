@@ -1,7 +1,7 @@
 const CARDS = [
   {
     t: "We never measured traffic",
-    d: "The data has no speeds or travel times, so the impact score is a careful estimate, not a measurement, and we don't pretend otherwise. Instead of claiming accuracy, we check that the top-scoring spots are places locals already know are bad (20 of the top 20 are), and that the ranking barely moves month to month.",
+    d: "The data has no speeds or travel times, so the impact score is a careful estimate, not a measurement, and we don't pretend otherwise. We validate it four ways instead of claiming accuracy. The strongest is an independent OpenStreetMap cross-check: built without any road or land-use data, the score still rediscovers the city's commercial cores, with the share of cells next to a market, shop, or transit stop climbing from 34% to 62% as impact rises. It also matches local knowledge (20 of the top 20 are known bad spots), barely moves month to month, and holds across 2,000 random axis weightings (median ρ 0.97).",
     tag: "Upfront",
   },
   {

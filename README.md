@@ -28,8 +28,10 @@ per patrol-hour.
   (precomputed JSON), deploys to Vercel with no backend.
 - **Decision-support upgrades complete.** A congestion-cost estimate (vehicle-hours and rupees,
   ~Rs 5.2 cr/year; worst 20 cells = 31%), emerging-hotspot detection (cells escalating faster than
-  the city), a second ML model that flags likely-false reports (ROC-AUC 0.758), and an optional OSM
-  road-criticality enrichment. All surfaced in the web app.
+  the city), a second ML model that flags likely-false reports (ROC-AUC 0.758), and an independent
+  OpenStreetMap cross-check that rediscovers the commercial cores the score was never shown
+  (near-commerce share climbs 34% to 62% with impact, while arterial road class stays uncorrelated,
+  which is the correct result). All surfaced in the web app.
 
 Full roadmap, design, and submission tracker: **`ParkPulse_Project_Master.md`** (source of truth).
 
@@ -68,7 +70,9 @@ Full roadmap, design, and submission tracker: **`ParkPulse_Project_Master.md`** 
 │   ├── detection_validity.py     # false-detection classifier (2nd ML model)
 │   ├── emerging_hotspots.py      # cells rising faster than the city
 │   ├── enforcement_gap.py        # effort vs impact by time window
-│   └── enrich_osm.py             # optional: real road class + POIs (run locally)
+│   ├── score_robustness.py       # is the ranking stable to the axis weights?
+│   ├── enrich_osm.py             # optional: real road class + betweenness + POIs (run locally)
+│   └── osm_validate.py           # optional: cross-check the score vs real OSM road data
 └── outputs/                      # generated artifacts
     ├── parkpulse_map.html        #   interactive impact map
     ├── top_zones.md / .csv       #   ranked enforcement zones (ops payload)

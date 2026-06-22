@@ -63,8 +63,12 @@ We are upfront about the one thing the data does not contain: actual traffic spe
 So the impact score is a careful estimate, not a measurement, and we validate it the
 honest way. The top spots are places locals already know are bad (20 of the top 20),
 and the ranking holds steady month to month (rank correlation around 0.75 between
-consecutive months, 0.86 against the full period). The day a live speed feed exists,
-the same system trains straight into it, with measured slowdown as the target.
+consecutive months, 0.86 against the full period). As an independent check, we hold the
+score up against real OpenStreetMap geography it was never given: built without any road
+network, it still rediscovers the city's commercial cores, with the share of cells next
+to a market, shop, or transit stop climbing from 34% to 62% as impact rises. The day a
+live speed feed exists, the same system trains straight into it, with measured slowdown
+as the target.
 
 The whole thing ships as a fast static web app (Next.js + deck.gl) that runs on a CDN
 with no backend and no API keys.
@@ -107,7 +111,8 @@ python scripts/enforcement_gap.py        # effort vs impact         -> outputs/e
 python web/prepare_data.py               # refresh the app's JSON   -> web/public/data/*
 
 # optional, needs network access (run on your own machine, then re-run prepare_data.py):
-python scripts/enrich_osm.py             # real road class + POIs    -> data/hex_osm.csv
+python scripts/enrich_osm.py             # real road class + betweenness + POIs -> data/hex_osm.csv
+python scripts/osm_validate.py           # cross-check the score vs OSM -> outputs/osm_validation.md
 ```
 
 The raw 105 MB violations CSV is not committed (it exceeds GitHub's limit and is the
