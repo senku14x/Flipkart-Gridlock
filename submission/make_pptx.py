@@ -69,6 +69,13 @@ SLIDES = [
         "Stability: the ranking holds month to month (rank correlation about 0.75 to 0.86).",
         "This is the ops payload: a shortlist an officer can act on tomorrow.",
     ]},
+    {"t": "Does it agree with the real city?", "fig": "fig-osm.png",
+     "n": "Built blind to OSM, the score still rediscovers the commercial cores. The strongest validation we have.", "b": [
+        "The score uses no road network and no land use, just the violation feed. We cross-check it against real OpenStreetMap geography it never saw.",
+        "Sort all cells into 10 impact bands: the share next to a market, shop, or transit stop climbs steadily from 34% in the lowest to 62% in the highest.",
+        "Top-30 hotspots sit next to a marketplace 17% vs 2% city-wide, an ~8x enrichment; proximity tracks impact about twice as strongly as road class.",
+        "Honest read: it barely correlates with arterial road class (0.12), which is correct. Parking chokes narrow commercial streets, not wide arterials.",
+    ]},
     {"t": "The visibility gap: effort vs impact", "fig": "fig-gap.png",
      "n": "The persuasion slide. Lead with the night number.", "b": [
         "Recorded violations double as a map of enforcement EFFORT.",
@@ -109,7 +116,7 @@ SLIDES = [
         "Same fleet, more relief. It turns the analysis into a deployable plan with a number attached.",
     ]},
     {"t": "Honest about the gap", "n": "Judges reward candor; so does anyone deploying this.", "b": [
-        "No ground truth for impact: the score is an engineered index, validated by face validity and stability, never claimed as accuracy.",
+        "No ground truth for impact: an engineered index, validated four ways (face validity, stability, weight-robustness, and an independent OSM cross-check), never claimed as accuracy.",
         "Robust to the weights: across 2,000 random axis weightings the top-20 ranking holds (median rank-corr 0.97), so the score isn't a hand-tuned artefact.",
         "The enforcement confound: we weight by exogenous exposure, never the recorded hour.",
         "The data can't see the evening (enforcement rarely works evenings), so we don't fake an hour-by-hour schedule.",

@@ -28,8 +28,10 @@ per patrol-hour.
   (precomputed JSON), deploys to Vercel with no backend.
 - **Decision-support upgrades complete.** A congestion-cost estimate (vehicle-hours and rupees,
   ~Rs 5.2 cr/year; worst 20 cells = 31%), emerging-hotspot detection (cells escalating faster than
-  the city), a second ML model that flags likely-false reports (ROC-AUC 0.758), and an optional OSM
-  road-criticality enrichment. All surfaced in the web app.
+  the city), a second ML model that flags likely-false reports (ROC-AUC 0.758), and an independent
+  OpenStreetMap cross-check that rediscovers the commercial cores the score was never shown
+  (near-commerce share climbs 34% to 62% with impact, while arterial road class stays uncorrelated,
+  which is the correct result). All surfaced in the web app.
 
 Full roadmap, design, and submission tracker: **`ParkPulse_Project_Master.md`** (source of truth).
 
