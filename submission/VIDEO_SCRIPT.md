@@ -1,6 +1,6 @@
 # ParkPulse video demo script
 
-A scene-by-scene shooting script for a ~2 minute 50 second demo. Read the **Voiceover**
+A scene-by-scene shooting script for a ~2 minute 55 second demo. Read the **Voiceover**
 lines aloud at a calm pace (~150 words/min); follow the **Screen** directions as you
 record. Everything points at the live site, so nothing is faked.
 
@@ -11,7 +11,7 @@ record. Everything points at the live site, so nothing is faked.
   section settle for a beat before talking over it.
 - Keep the cursor deliberate. When the script says "hover," pause on the cell so the
   tooltip is clearly visible.
-- Total target 2:50. If you run long, trim the forecaster and triage lines first.
+- Total target 2:55. If you run long, trim the forecaster and triage lines first.
 
 ---
 
@@ -79,11 +79,13 @@ rupees of delay a day, because the worst spots cluster, so spreading out beats t
 top of the list."
 
 ### [2:45] Honesty and close
-**Screen:** Scroll to the methodology cards, then back up to the hero for the final frame.
+**Screen:** Scroll to the methodology cards (rest a beat on the first card, which describes
+the OpenStreetMap cross-check), then back up to the hero for the final frame.
 **Voiceover:** "One thing we never had is live traffic speeds, so we do not pretend the
-score is a measurement. But the moment a speed feed exists, this whole system trains
-straight into it. That is ParkPulse: where, when, and at what cost to send the next
-patrol. Thank you."
+score is a measurement. But we did validate it: built blind to any road map, the score
+still rediscovers the city's commercial cores, the streets next to markets and transit.
+And the moment a speed feed exists, this whole system trains straight into it. That is
+ParkPulse: where, when, and at what cost to send the next patrol. Thank you."
 
 ---
 

@@ -179,5 +179,7 @@ so spreading out beats just taking the top of the list.
 **[2:30] Honesty and close**
 *Scroll to methodology.*
 One thing we never had is actual traffic speeds, so we don't pretend the score is a
-measurement. But the moment a speed feed exists, this whole system trains straight
-into it. That's ParkPulse: where and when to send the next patrol. Thank you.
+measurement. But we did validate it: built blind to any road map, the score still
+rediscovers the city's commercial cores. And the moment a speed feed exists, this whole
+system trains straight into it. That's ParkPulse: where and when to send the next patrol.
+Thank you.
