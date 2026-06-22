@@ -68,6 +68,7 @@ Full roadmap, design, and submission tracker: **`ParkPulse_Project_Master.md`** 
 │   ├── detection_validity.py     # false-detection classifier (2nd ML model)
 │   ├── emerging_hotspots.py      # cells rising faster than the city
 │   ├── enforcement_gap.py        # effort vs impact by time window
+│   ├── score_robustness.py       # is the ranking stable to the axis weights?
 │   └── enrich_osm.py             # optional: real road class + POIs (run locally)
 └── outputs/                      # generated artifacts
     ├── parkpulse_map.html        #   interactive impact map

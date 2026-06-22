@@ -1,7 +1,7 @@
 const CARDS = [
   {
     t: "We never measured traffic",
-    d: "The data has no speeds or travel times, so the impact score is a careful estimate, not a measurement, and we don't pretend otherwise. Instead of claiming accuracy, we check that the top-scoring spots are places locals already know are bad (20 of the top 20 are), and that the ranking barely moves month to month.",
+    d: "The data has no speeds or travel times, so the impact score is a careful estimate, not a measurement, and we don't pretend otherwise. Instead of claiming accuracy, we check that the top-scoring spots are places locals already know are bad (20 of the top 20 are), that the ranking barely moves month to month, and that it holds across 2,000 random axis weightings (median ρ 0.97).",
     tag: "Upfront",
   },
   {

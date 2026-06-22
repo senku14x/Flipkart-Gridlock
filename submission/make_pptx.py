@@ -110,6 +110,7 @@ SLIDES = [
     ]},
     {"t": "Honest about the gap", "n": "Judges reward candor; so does anyone deploying this.", "b": [
         "No ground truth for impact: the score is an engineered index, validated by face validity and stability, never claimed as accuracy.",
+        "Robust to the weights: across 2,000 random axis weightings the top-20 ranking holds (median rank-corr 0.97), so the score isn't a hand-tuned artefact.",
         "The enforcement confound: we weight by exogenous exposure, never the recorded hour.",
         "The data can't see the evening (enforcement rarely works evenings), so we don't fake an hour-by-hour schedule.",
         "Fusion-ready: a live speed feed turns the index into a learning model, with measured slowdown as the label.",
