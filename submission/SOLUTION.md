@@ -114,7 +114,7 @@ A fair question is whether the ranking is an artefact of the equal weighting. It
 
 ## 6. Honesty and limitations
 
-- **No ground truth for impact.** The score is an engineered index, not a measurement, and we never claim accuracy for it. We validate by face validity and stability.
+- **No ground truth for impact.** The score is an engineered index, not a measurement, and we never claim accuracy for it. We validate by face validity, month-to-month stability, and a robustness check on the weights. We also ship an independent OpenStreetMap cross-check (`scripts/osm_validate.py`): the score, built without the road network, is compared against real OSM road criticality and nearby congestion-generators, the closest thing to ground truth without a speed feed.
 - **The enforcement confound.** We weight by exogenous exposure, never by recorded hour, and we state that the forecaster predicts *recorded detections under current enforcement*, not pure demand.
 - **The data can't see the evening.** Evening violations are near-absent because enforcement rarely works evenings, so we do not build an hour-by-hour schedule from the recorded hour.
 - **Fusion-ready.** The moment a live speed feed, real road network, events calendar, or patrol roster exists, those factors become inputs and measured slowdown becomes the label. The data gap is a roadmap.

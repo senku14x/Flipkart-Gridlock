@@ -168,7 +168,7 @@ Validation & face validity 20/20; stability $\rho$ 0.75--0.86 \\
 % ---------------------------------------------------------------- honesty
 \section{Honesty and limitations}
 \begin{itemize}[label=\textbullet]
-  \item \textbf{No ground truth for impact.} The score is an engineered index, not a measurement; we validate by face validity and stability, never by claimed accuracy.
+  \item \textbf{No ground truth for impact.} The score is an engineered index, not a measurement; we validate by face validity, stability, and a robustness check. We also ship an independent OpenStreetMap cross-check (\texttt{osm\_validate.py}): the score, built without the road network, is compared against real road criticality and nearby congestion-generators, the closest thing to ground truth without a speed feed.
   \item \textbf{The enforcement confound.} We weight by exogenous exposure, never the recorded hour, and state that the forecaster predicts recorded detections under current enforcement, not pure demand.
   \item \textbf{The data can't see the evening.} Evening violations are near-absent because enforcement rarely works evenings, so we do not build an hour-by-hour schedule from the recorded hour.
   \item \textbf{Fusion-ready.} The moment a live speed feed, real road network, events calendar, or patrol roster exists, those factors become inputs and measured slowdown becomes the label. The data gap is a roadmap.

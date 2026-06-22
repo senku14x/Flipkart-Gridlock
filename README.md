@@ -69,7 +69,8 @@ Full roadmap, design, and submission tracker: **`ParkPulse_Project_Master.md`** 
 │   ├── emerging_hotspots.py      # cells rising faster than the city
 │   ├── enforcement_gap.py        # effort vs impact by time window
 │   ├── score_robustness.py       # is the ranking stable to the axis weights?
-│   └── enrich_osm.py             # optional: real road class + POIs (run locally)
+│   ├── enrich_osm.py             # optional: real road class + betweenness + POIs (run locally)
+│   └── osm_validate.py           # optional: cross-check the score vs real OSM road data
 └── outputs/                      # generated artifacts
     ├── parkpulse_map.html        #   interactive impact map
     ├── top_zones.md / .csv       #   ranked enforcement zones (ops payload)

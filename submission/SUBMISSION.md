@@ -107,7 +107,8 @@ python scripts/enforcement_gap.py        # effort vs impact         -> outputs/e
 python web/prepare_data.py               # refresh the app's JSON   -> web/public/data/*
 
 # optional, needs network access (run on your own machine, then re-run prepare_data.py):
-python scripts/enrich_osm.py             # real road class + POIs    -> data/hex_osm.csv
+python scripts/enrich_osm.py             # real road class + betweenness + POIs -> data/hex_osm.csv
+python scripts/osm_validate.py           # cross-check the score vs OSM -> outputs/osm_validation.md
 ```
 
 The raw 105 MB violations CSV is not committed (it exceeds GitHub's limit and is the
